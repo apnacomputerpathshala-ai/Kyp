@@ -313,7 +313,6 @@ async function showDashboard(student) {
     await updateAttendanceUI(student.id);
 
     // 2. Realtime Listener ऑन करें (बिना रिफ्रेश अटेंडेंस अपडेट के लिए)
-    _supabase.channel('custom-attendance-channel')
     attendanceChannel = _supabase.channel('custom-attendance-channel')
         .on(
             'postgres_changes',
