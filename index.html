@@ -6,6 +6,9 @@
     
     <!-- ✅ GOOGLE SEARCH (SEO) SETTINGS -->
     <title>KYP SDC Simri | Student Portal & Kriti Edify KYP Login</title>
+        <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
     <meta name="description" content="KYP SDC Simri Student Portal: Kriti Edify KYP Login. कुशल युवा कार्यक्रम (KYP) SDC सिमरी के छात्रों के लिए अटेंडेंस, बैच टाइमिंग और प्रोफाइल चेक करने का ऑफिशियल पोर्टल।">
     <meta name="keywords" content="KYP SDC Simri, KYP SDC Simri Student Portal, Kriti Edify KYP Login, KYP SDC centre, SDC Simri, Buxar KYP Centre">
     <meta name="robots" content="index, follow">
@@ -89,6 +92,10 @@
         <button id="btn-login" class="btn btn-kyp btn-lg w-100 fw-bold rounded-pill" onclick="studentLogin()">
             <i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें
         </button>
+        <button id="installAppBtn" class="btn btn-outline-primary btn-lg w-100 fw-bold rounded-pill mt-3 bg-white" style="display: none;" onclick="installPWA()">
+            <i class="fas fa-download me-2"></i> INSTALL APP / ऐप इंस्टॉल करें
+        </button>
+
         <p id="errorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
     </div>
 
@@ -260,6 +267,65 @@ function logout() {
     document.getElementById('loginDob').value = '';
     document.getElementById('dashboardScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'block';
+}
+</script>
+<!-- UPDATE POPUP UI -->
+<div id="updateNotice" style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 18px 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10001; text-align: center; width: 90%; max-width: 320px;">
+    <p class="m-0 mb-3 fw-bold" style="font-size: 15px;">🚀 ऐप का नया अपडेट उपलब्ध है!</p>
+    <div class="d-flex gap-2 justify-content-center">
+        <button onclick="forceUpdateApp()" class="btn btn-primary btn-sm fw-bold px-4 rounded-pill">UPDATE</button>
+        <button onclick="document.getElementById('updateNotice').style.display='none'" class="btn btn-outline-light btn-sm fw-bold px-4 rounded-pill">SKIP</button>
+    </div>
+</div>
+
+<script>
+// --- PWA INSTALL & UPDATE LOGIC ---
+let deferredPrompt;
+let newWorker;
+
+// 1. Install App Logic
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installAppBtn').style.display = 'block'; // बटन दिखाएँ
+});
+
+function installPWA() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                document.getElementById('installAppBtn').style.display = 'none';
+            }
+            deferredPrompt = null;
+        });
+    }
+}
+
+// 2. Service Worker & Update Popup Logic
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+        reg.addEventListener('updatefound', () => {
+            newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    document.getElementById('updateNotice').style.display = 'block'; // Popup दिखाएँ
+                }
+            });
+        });
+    });
+}
+
+function forceUpdateApp() {
+    if (newWorker) {
+        newWorker.postMessage({ action: 'skipWaiting' });
+    }
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let reg of regs) { reg.update(); }
+        });
+    }
+    setTimeout(() => window.location.reload(true), 500); // पेज रिफ्रेश
 }
 </script>
 </body>
