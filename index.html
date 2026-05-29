@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ✅ GOOGLE SEARCH (SEO) SETTINGS -->
     <title>KYP SDC Simri | Student Portal & Kriti Edify KYP Login</title>
-        <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563eb">
 
     <meta name="description" content="KYP SDC Simri Student Portal: Kriti Edify KYP Login. कुशल युवा कार्यक्रम (KYP) SDC सिमरी के छात्रों के लिए अटेंडेंस, बैच टाइमिंग और प्रोफाइल चेक करने का ऑफिशियल पोर्टल।">
     <meta name="keywords" content="KYP SDC Simri, KYP SDC Simri Student Portal, Kriti Edify KYP Login, KYP SDC centre, SDC Simri, Buxar KYP Centre">
     <meta name="robots" content="index, follow">
     
-    <!-- CSS & Fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -35,7 +33,7 @@
         
         /* लैपटॉप (बड़ी स्क्रीन) के लिए CSS */
         @media (min-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr 2fr; } /* प्रोफाइल लेफ्ट में, डिटेल्स राइट में */
+            .dashboard-grid { grid-template-columns: 1fr 2fr; }
             .main-container { margin: 60px auto; }
         }
 
@@ -48,7 +46,7 @@
         .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .stat-box { background: #f8fafc; padding: 20px 10px; border-radius: 15px; text-align: center; border: 1px solid #e2e8f0; transition: 0.3s; }
         
-        /* KYP Official Colors for buttons/accents */
+        /* KYP Official Colors */
         .btn-kyp { background-color: #2563eb; color: white; transition: 0.3s; border: none; }
         .btn-kyp:hover { background-color: #1d4ed8; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); }
 
@@ -58,14 +56,12 @@
 </head>
 <body>
 
-<!-- SEO के लिए मुख्य हेडिंग (यह पेज पर नहीं दिखेगी, लेकिन Google इसे पढ़ेगा) -->
 <h1 class="visually-hidden">KYP SDC Simri Student Portal - Kriti Edify KYP Login</h1>
 
 <div class="main-container">
     
-    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen" class="login-box text-center">
-                <div class="mb-3">
+        <div class="mb-3">
             <img src="logo.png" alt="SDC Logo" style="width: 90px; height: auto; object-fit: contain; margin-bottom: 10px;">
         </div>
         <h4 class="fw-bold text-dark mb-1">Student Portal</h4>
@@ -89,29 +85,82 @@
         <button id="btn-login" class="btn btn-kyp btn-lg w-100 fw-bold rounded-pill" onclick="studentLogin()">
             <i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें
         </button>
-        <button id="installAppBtn" class="btn btn-outline-primary btn-lg w-100 fw-bold rounded-pill mt-3 bg-white" style="display: none;" onclick="installPWA()">
-            <i class="fas fa-download me-2"></i> INSTALL APP / ऐप इंस्टॉल करें
-        </button>
 
         <p id="errorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
+        
+        <div class="mt-4 pt-3 border-top text-center">
+            <p class="small text-muted mb-2 fw-bold" style="font-size: 11px;">नया एडमिशन लेना है?</p>
+            <button type="button" class="btn btn-light btn-sm fw-bold rounded-pill text-primary shadow-sm border border-primary-subtle px-4 py-2" onclick="showRegistrationScreen()">
+                <i class="fas fa-user-plus me-1 text-success"></i> New Registration
+            </button>
+        </div>
+        
+        <button id="installAppBtn" class="btn btn-outline-primary btn-sm w-100 fw-bold rounded-pill mt-3 bg-white" style="display: none;" onclick="installPWA()">
+            <i class="fas fa-download me-2"></i> Install App
+        </button>
     </div>
 
-    <!-- 2. DASHBOARD SCREEN -->
+    <div id="registrationScreen" class="login-box" style="display: none; max-width: 700px; text-align: left; padding: 30px;">
+        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+            <h5 class="fw-bold text-primary m-0"><i class="fas fa-user-plus me-2"></i> Student Registration</h5>
+            <button type="button" class="btn-close" onclick="hideRegistrationScreen()"></button>
+        </div>
+        
+        <form id="newStudentForm" onsubmit="submitNewRegistration(event)">
+            <h6 class="fw-bold text-secondary mt-3">Personal Details (व्यक्तिगत जानकारी)</h6>
+            <div class="row g-2">
+                <div class="col-md-4"><label class="small fw-bold">Name (नाम)</label><input type="text" id="rName" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
+                <div class="col-md-4"><label class="small fw-bold">Father's Name</label><input type="text" id="rFather" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
+                <div class="col-md-4"><label class="small fw-bold">Date of Birth</label><input type="date" id="rDob" class="form-control form-control-sm" required></div>
+                
+                <div class="col-md-4"><label class="small fw-bold">Gender</label><select id="rGender" class="form-select form-select-sm" required><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
+                <div class="col-md-4"><label class="small fw-bold">Category</label><select id="rCategory" class="form-select form-select-sm" required><option value="GEN">GEN</option><option value="BC">BC</option><option value="EBC">EBC</option><option value="SC">SC</option><option value="ST">ST</option></select></div>
+                <div class="col-md-4"><label class="small fw-bold">Mobile No</label><input type="text" id="rMobile" class="form-control form-control-sm" maxlength="10" required oninput="this.value = this.value.replace(/[^0-9]/g, '')"></div>
+                
+                <div class="col-md-6"><label class="small fw-bold">Aadhar Number</label><input type="text" id="rAadhar" class="form-control form-control-sm" maxlength="14" required oninput="formatAadhar(this)"></div>
+                <div class="col-md-6"><label class="small fw-bold">Passport Photo</label><input type="file" id="rPhoto" class="form-control form-control-sm" accept="image/*" onchange="previewRegImage(this)"><input type="hidden" id="rPhotoData"></div>
+            </div>
+
+            <h6 class="fw-bold text-secondary mt-4 border-top pt-2">Address & Education (पता और शिक्षा)</h6>
+            <div class="row g-2">
+                <div class="col-md-3"><label class="small fw-bold">Village (गाँव)</label><input type="text" id="rVillage" class="form-control form-control-sm" required></div>
+                <div class="col-md-3"><label class="small fw-bold">Panchayat</label><input type="text" id="rPanchayat" class="form-control form-control-sm"></div>
+                <div class="col-md-3"><label class="small fw-bold">Block</label><input type="text" id="rBlock" class="form-control form-control-sm"></div>
+                <div class="col-md-3"><label class="small fw-bold">Pin Code</label><input type="text" id="rPincode" class="form-control form-control-sm" maxlength="6"></div>
+                
+                <div class="col-md-4"><label class="small fw-bold">School/College Name</label><input type="text" id="rSchool" class="form-control form-control-sm"></div>
+                <div class="col-md-2"><label class="small fw-bold">Board</label><input type="text" id="rBoard" class="form-control form-control-sm"></div>
+                <div class="col-md-2"><label class="small fw-bold">Class</label><input type="text" id="rClass" class="form-control form-control-sm"></div>
+                <div class="col-md-2"><label class="small fw-bold">Roll No</label><input type="text" id="rRollNo" class="form-control form-control-sm"></div>
+                <div class="col-md-2"><label class="small fw-bold">Pass Year</label><input type="text" id="rPassYear" class="form-control form-control-sm" maxlength="4"></div>
+            </div>
+
+            <h6 class="fw-bold text-secondary mt-4 border-top pt-2">Bank Details (बैंक खाता)</h6>
+            <div class="row g-2">
+                <div class="col-md-4"><label class="small fw-bold">Bank Name</label><input type="text" id="rBankName" class="form-control form-control-sm"></div>
+                <div class="col-md-4"><label class="small fw-bold">Account No</label><input type="text" id="rAccNo" class="form-control form-control-sm" oninput="this.value = this.value.replace(/[^0-9]/g, '')"></div>
+                <div class="col-md-4"><label class="small fw-bold">IFSC Code</label><input type="text" id="rIfsc" class="form-control form-control-sm" style="text-transform: uppercase;"></div>
+            </div>
+
+            <p id="regErrorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
+            
+            <button id="btn-submit-reg" type="submit" class="btn btn-primary w-100 fw-bold rounded-pill mt-4 p-2 shadow-sm">
+                SUBMIT REGISTRATION
+            </button>
+        </form>
+    </div>
+
     <div id="dashboardScreen" class="dashboard-grid">
         
-        <!-- लेफ्ट साइड (या मोबाइल पर सबसे ऊपर): प्रोफाइल -->
         <div>
             <div class="profile-card">
                 <img id="sPhoto" src="" class="profile-img">
                 <h4 id="sName" class="fw-bold mb-1 text-uppercase">Student Name</h4>
                 <div class="badge bg-white text-dark mb-2 px-3 py-2 rounded-pill" style="font-size: 12px; font-weight: 800;">
-    SI.No: <span id="sSiNo">00</span>
-</div>
+                    SI.No: <span id="sSiNo">00</span>
+                </div>
 
-<!-- NAYA: ID Badges Container -->
-<div id="studentIdBadges" class="d-flex justify-content-center gap-2 mb-3 flex-wrap">
-    <!-- JS se ID yahan show hongi -->
-</div>
+                <div id="studentIdBadges" class="d-flex justify-content-center gap-2 mb-3 flex-wrap"></div>
                 
                 <div class="bg-light bg-opacity-10 rounded-3 p-3 text-start mt-2 border border-light border-opacity-25">
                     <p class="small m-0 mb-2"><i class="fas fa-mobile-alt me-2 text-info"></i> <span id="sMobile"></span></p>
@@ -120,23 +169,19 @@
                 </div>
             </div>
             
-            <button class="btn btn-outline-secondary w-100 fw-bold rounded-pill mt-3 p-2 bg-white shadow-sm" onclick="logout()">
-                <i class="fas fa-power-off me-2 text-danger"></i> LOGOUT
+            <button id="mkclBtn" class="btn btn-success w-100 fw-bold rounded-pill mt-3 p-2 shadow-sm" onclick="openMKCLPortal()">
+                <i class="fas fa-globe me-2"></i> Edunext student login
             </button>
         </div>
 
-        <!-- राइट साइड (या मोबाइल पर नीचे): अटेंडेंस और डिटेल्स -->
         <div>
-            <!-- लाइव नोटिस बोर्ड -->
             <div class="notice-alert shadow-sm">
                 <h6 class="fw-bold text-dark m-0 mb-1"><i class="fas fa-bullhorn text-warning me-2"></i> आवश्यक सूचना</h6>
                 <p class="small text-muted m-0 fw-bold">कौशल विकास केंद्र (SDC Simri) के सभी छात्र अपने निर्धारित बैच के समय (Batch Time) पर क्लास में उपस्थित रहें।</p>
             </div>
 
-            <!-- अटेंडेंस रिपोर्ट -->
             <div class="info-card">
                 <h5 class="fw-bold text-dark border-bottom pb-2"><i class="fas fa-chart-pie text-primary me-2"></i> Attendance Record</h5>
-                
                 <div class="stat-grid">
                     <div class="stat-box border-bottom border-secondary border-4">
                         <h2 id="attTotal" class="fw-bold text-dark m-0">0</h2>
@@ -152,7 +197,6 @@
                     </div>
                 </div>
 
-                <!-- प्रोग्रेस बार -->
                 <div class="mt-4 pt-2">
                     <div class="d-flex justify-content-between mb-1">
                         <span class="small fw-bold text-muted">Attendance Percentage</span>
@@ -163,8 +207,11 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Footer Text -->
+
+            <button class="btn btn-outline-secondary w-100 fw-bold rounded-pill mt-2 p-2 bg-white shadow-sm" onclick="logout()">
+                <i class="fas fa-power-off me-2 text-danger"></i> LOGOUT
+            </button>
+
             <div class="text-center mt-3" style="cursor: pointer;" onclick="toggleCenterInfo()">
                 <small class="text-muted fw-bold" style="font-size: 10px;">
                     KUSHAL YUVA PROGRAM (KYP) <i class="fas fa-chevron-down ms-1" id="centerIcon"></i>
@@ -183,13 +230,15 @@
 const SUPABASE_URL = 'https://fnafxhtwuzavnanlwkbm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuYWZ4aHR3dXphdm5hbmx3a2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NzQ0NTEsImV4cCI6MjA5MjQ1MDQ1MX0.gHaGjTGJ0U7Jk1eKUyLTZtz0hYzMThcZxTi4bXZ5tyc'; 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let attendanceChannel;
 
-// पेज लोड होते ही चेक करें कि क्या डेटा सेव है (Auto-Login)
+let attendanceChannel;
+let currentStudentId = null;
+let currentStudentRemark = null;
+let currentMnssbyId = null;
+
 window.onload = async () => {
     const savedAadhar = localStorage.getItem('studentAadhar');
     const savedDob = localStorage.getItem('studentDob');
-    
     if (savedAadhar && savedDob) {
         document.getElementById('loginAadhar').value = savedAadhar;
         document.getElementById('loginDob').value = savedDob;
@@ -197,7 +246,6 @@ window.onload = async () => {
     }
 };
 
-// Footer टॉगल करने का फंक्शन
 function toggleCenterInfo() {
     const info = document.getElementById('centerDetails');
     const icon = document.getElementById('centerIcon');
@@ -215,13 +263,30 @@ function formatAadhar(input) {
     input.value = value.match(/.{1,4}/g)?.join(' ') || value;
 }
 
-// अटेंडेंस कैलकुलेट और अपडेट करने का फंक्शन
-async function updateAttendanceUI(studentId) {
-    const { data: logs } = await _supabase
-        .from('attendance_logs')
-        .select('status')
-        .eq('student_id', studentId);
+function isWithinBatchTime(remarkStr, extraTimeActive) {
+    if (extraTimeActive === true) return true;
+    if (!remarkStr) return false;
 
+    const timeMatch = remarkStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!timeMatch) return false; 
+
+    let [ , hours, minutes, modifier ] = timeMatch;
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
+
+    if (modifier.toUpperCase() === 'PM' && hours < 12) hours += 12;
+    if (modifier.toUpperCase() === 'AM' && hours === 12) hours = 0;
+
+    const now = new Date();
+    const batchStart = new Date();
+    batchStart.setHours(hours, minutes, 0, 0);
+
+    const batchEnd = new Date(batchStart.getTime() + (90 * 60000)); 
+    return now >= batchStart && now <= batchEnd;
+}
+
+async function updateAttendanceUI(studentId) {
+    const { data: logs } = await _supabase.from('attendance_logs').select('status').eq('student_id', studentId);
     let total = 0, present = 0, absent = 0, rate = 0;
 
     if (logs && logs.length > 0) {
@@ -244,6 +309,13 @@ async function updateAttendanceUI(studentId) {
 }
 
 async function studentLogin() {
+    // नया चेक: क्या ऐप इंस्टॉल है?
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    
+    if (!isStandalone) {
+        alert("⚠️ कृपया पहले इस वेबसाइट को अपने फोन में 'Install' करें, तभी आप लॉगिन कर पाएंगे।");
+        return; 
+    }
     const aadharRaw = document.getElementById('loginAadhar').value;
     const aadharClean = aadharRaw.replace(/\s/g, ''); 
     const dob = document.getElementById('loginDob').value;
@@ -271,12 +343,17 @@ async function studentLogin() {
             errorMsg.innerHTML = "<i class='fas fa-exclamation-triangle me-1'></i> रिकॉर्ड नहीं मिला! कृपया जानकारी चेक करें।";
             errorMsg.style.display = "block";
         } else {
+            if (data.admis !== 'Yes' && data.deep_admis !== 'Yes') {
+                errorMsg.innerHTML = "<i class='fas fa-ban me-1'></i> आपका एडमिशन अभी पेंडिंग है!";
+                errorMsg.style.display = "block";
+                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें';
+                btn.disabled = false;
+                return;
+            }
+
             errorMsg.style.display = "none";
-            
-            // Login Details सेव कर रहे हैं ताकि रिफ्रेश पर लॉगआउट ना हो
             localStorage.setItem('studentAadhar', aadharRaw);
             localStorage.setItem('studentDob', dob);
-            
             showDashboard(data);
         }
     } catch (err) {
@@ -290,13 +367,19 @@ async function studentLogin() {
 
 async function showDashboard(student) {
     document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('registrationScreen').style.display = 'none';
     document.getElementById('dashboardScreen').style.display = 'grid'; 
+
+    currentStudentId = student.id;
+    currentStudentRemark = student.remark;
+    currentMnssbyId = student.mnssbyId; 
 
     document.getElementById('sName').innerText = student.name;
     document.getElementById('sSiNo').innerText = student.siNo || "N/A";
     document.getElementById('sBatch').innerText = student.remark || "Not Assigned";
     document.getElementById('sMobile').innerText = student.mobile || "N/A";
     document.getElementById('sGender').innerText = student.gender || "N/A";
+    
     let badgesHtml = '';
     if(student.mnssbyId && student.mnssbyId !== "-") {
         badgesHtml += `<span class="badge bg-primary text-white px-3 py-2 rounded-pill shadow-sm" style="font-size: 11px;"><i class="fas fa-id-card me-1"></i> KYP: ${student.mnssbyId}</span>`;
@@ -309,35 +392,173 @@ async function showDashboard(student) {
     const photoEl = document.getElementById('sPhoto');
     photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
 
-    // 1. पहली बार अटेंडेंस लोड करें
     await updateAttendanceUI(student.id);
 
     attendanceChannel = _supabase.channel('custom-attendance-channel')
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'attendance_logs', filter: `student_id=eq.${student.id}` },
-            (payload) => {
-                console.log('Attendance changed in database!');
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'attendance_logs', filter: `student_id=eq.${student.id}` }, (payload) => {
                 updateAttendanceUI(student.id);
+        }).subscribe();
+}
+
+async function openMKCLPortal() {
+    const btn = document.getElementById('mkclBtn');
+    const originalText = btn.innerHTML;
+    
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Please Wait...';
+    btn.disabled = true;
+
+    try {
+        const { data } = await _supabase.from('students').select('extra_time_active').eq('id', currentStudentId).single();
+        const isAdminActive = data ? data.extra_time_active : false;
+
+        if (isWithinBatchTime(currentStudentRemark, isAdminActive)) {
+            if (currentMnssbyId && currentMnssbyId !== "-") {
+                try {
+                    await navigator.clipboard.writeText(currentMnssbyId);
+                    alert(`✅ आपका User ID (${currentMnssbyId}) कॉपी हो गया है!\n\nपोर्टल खुलने पर ID वाले बॉक्स में थोड़ी देर दबाकर 'Paste' (पेस्ट) कर दें।`);
+                } catch(copyErr) {
+                    console.log("Auto-copy fail", copyErr);
+                }
             }
-        )
-        .subscribe();
+            window.location.href = 'https://solarnw.mkcl.org/learner/login';
+        } else {
+            alert("⏳ यह लिंक सिर्फ आपकी क्लास के समय (Batch Time के 1 घंटा 30 मिनट तक) ही काम करेगा। अगर क्लास बाकी है तो सर से 'Active' करवाएं।");
+        }
+    } catch(err) {
+        alert("चेक करने में समस्या हुई। कृपया इंटरनेट चेक करें।");
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
 }
 
 function logout() {
-    // सेव किया हुआ लॉगिन डेटा हटा रहे हैं
     localStorage.removeItem('studentAadhar');
     localStorage.removeItem('studentDob');
-    if (attendanceChannel) {
-        _supabase.removeChannel(attendanceChannel);
-    }
+    currentStudentId = null;
+    currentStudentRemark = null;
+    currentMnssbyId = null; 
+    
+    if (attendanceChannel) _supabase.removeChannel(attendanceChannel);
+    
     document.getElementById('loginAadhar').value = '';
     document.getElementById('loginDob').value = '';
     document.getElementById('dashboardScreen').style.display = 'none';
+    document.getElementById('registrationScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'block';
 }
+
+// ==========================================
+// ✅ REGISTRATION LOGIC
+// ==========================================
+
+function showRegistrationScreen() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('registrationScreen').style.display = 'block';
+}
+
+function hideRegistrationScreen() {
+    document.getElementById('registrationScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'block';
+    document.getElementById('newStudentForm').reset();
+    document.getElementById('regErrorMsg').style.display = 'none';
+}
+
+function previewRegImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('rPhotoData').value = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+async function submitNewRegistration(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-submit-reg');
+    const errorMsg = document.getElementById('regErrorMsg');
+    
+    const rawAadhar = document.getElementById('rAadhar').value;
+    const cleanAadhar = rawAadhar.replace(/\s/g, ''); 
+    
+    if(cleanAadhar.length !== 12) {
+        errorMsg.innerText = "आधार नंबर 12 अंकों का होना चाहिए!";
+        errorMsg.style.display = "block";
+        return;
+    }
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
+    btn.disabled = true;
+
+    try {
+        const { data: existingStudent } = await _supabase
+            .from('students')
+            .select('name')
+            .or(`aadhar.eq."${rawAadhar}",aadhar.eq."${cleanAadhar}"`)
+            .maybeSingle();
+
+        if (existingStudent) {
+            errorMsg.innerText = `यह आधार नंबर पहले से रजिस्टर्ड है (${existingStudent.name})!`;
+            errorMsg.style.display = "block";
+            btn.innerHTML = 'SUBMIT REGISTRATION';
+            btn.disabled = false;
+            return;
+        }
+
+        const data = {
+            name: document.getElementById('rName').value.toUpperCase(),
+            father: document.getElementById('rFather').value.toUpperCase(),
+            dob: document.getElementById('rDob').value,
+            gender: document.getElementById('rGender').value,
+            category: document.getElementById('rCategory').value,
+            aadhar: rawAadhar,
+            mobile: document.getElementById('rMobile').value,
+            village: document.getElementById('rVillage').value,
+            panchayat: document.getElementById('rPanchayat').value || "-",
+            block: document.getElementById('rBlock').value || "-",
+            pincode: document.getElementById('rPincode').value || "-",
+            school: document.getElementById('rSchool').value || "-",
+            board: document.getElementById('rBoard').value || "-",
+            learnerClass: document.getElementById('rClass').value || "-",
+            rollCode: "-", 
+            rollNo: document.getElementById('rRollNo').value || "-",
+            passYear: parseInt(document.getElementById('rPassYear').value) || null,
+            bankName: document.getElementById('rBankName').value || "-",
+            branchName: "-",
+            accNo: document.getElementById('rAccNo').value || "-",
+            ifsc: document.getElementById('rIfsc').value.toUpperCase() || "-",
+            receipt: "-",
+            photo: document.getElementById('rPhotoData').value || null,
+            verify: "No",
+            alloc: "No",
+            admis: "No",           
+            deep_admis: "No",      
+            pay: "No",
+            remark: "Self Registered", 
+            mnssbyId: "-",
+            deepId: "-",
+            mnssbyPass: "-",
+            formStatus: "Pending",
+            drccStatus: "Pending"
+        };
+
+        const { error } = await _supabase.from('students').insert([data]);
+        if (error) throw error;
+
+        alert("🎉 आपका रजिस्ट्रेशन सफलतापूर्वक हो गया है!\n\nसर इसे चेक करके आपका एडमिशन 'Active' करेंगे, उसके बाद ही आप लॉगिन कर पाएंगे।");
+        hideRegistrationScreen();
+
+    } catch (err) {
+        errorMsg.innerText = "सर्वर एरर! कृपया इंटरनेट चेक करें या बाद में प्रयास करें।";
+        errorMsg.style.display = "block";
+    } finally {
+        btn.innerHTML = 'SUBMIT REGISTRATION';
+        btn.disabled = false;
+    }
+}
 </script>
-<!-- UPDATE POPUP UI -->
+
 <div id="updateNotice" style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 18px 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10001; text-align: center; width: 90%; max-width: 320px;">
     <p class="m-0 mb-3 fw-bold" style="font-size: 15px;">🚀 ऐप का नया अपडेट उपलब्ध है!</p>
     <div class="d-flex gap-2 justify-content-center">
@@ -351,11 +572,10 @@ function logout() {
 let deferredPrompt;
 let newWorker;
 
-// 1. Install App Logic
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    document.getElementById('installAppBtn').style.display = 'block'; // बटन दिखाएँ
+    document.getElementById('installAppBtn').style.display = 'block'; 
 });
 
 function installPWA() {
@@ -370,18 +590,14 @@ function installPWA() {
     }
 }
 
-// 2. Service Worker & Update Popup Logic
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').then(reg => {
-        
-        // 👇 यह लाइन नई जोड़ी गई है: पेज लोड होते ही तुरंत अपडेट चेक करें 👇
         reg.update(); 
-
         reg.addEventListener('updatefound', () => {
             newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    document.getElementById('updateNotice').style.display = 'block'; // Popup दिखाएँ
+                    document.getElementById('updateNotice').style.display = 'block'; 
                 }
             });
         });
@@ -397,12 +613,10 @@ function forceUpdateApp() {
             for (let reg of regs) { reg.update(); }
         });
     }
-    // अपडेट होने के बाद पेज को हार्ड रिफ्रेश करें
     setTimeout(() => {
         window.location.reload(true);
     }, 500); 
 }
-
 </script>
 </body>
 </html>
