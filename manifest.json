@@ -1,0 +1,17 @@
+{
+  "short_name": "KYP Student",
+  "name": "KYP Student Portal - SDC Simri",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2563eb",
+  "background_color": "#f1f5f9"
+}
