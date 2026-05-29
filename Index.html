@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ✅ GOOGLE SEARCH (SEO) SETTINGS -->
+    <title>KYP SDC Simri | Student Portal & Kriti Edify KYP Login</title>
+    <meta name="description" content="KYP SDC Simri Student Portal: Kriti Edify KYP Login. कुशल युवा कार्यक्रम (KYP) SDC सिमरी के छात्रों के लिए अटेंडेंस, बैच टाइमिंग और प्रोफाइल चेक करने का ऑफिशियल पोर्टल।">
+    <meta name="keywords" content="KYP SDC Simri, KYP SDC Simri Student Portal, Kriti Edify KYP Login, KYP SDC centre, SDC Simri, Buxar KYP Centre">
+    <meta name="robots" content="index, follow">
+    
+    <!-- CSS & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; }
+        
+        /* Google SEO के लिए हिडन H1 टैग */
+        .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        
+        /* लैपटॉप और मोबाइल दोनों के लिए बढ़िया डिज़ाइन */
+        .main-container { max-width: 900px; margin: 40px auto; padding: 0 15px; }
+        
+        /* लॉगिन बॉक्स का डिज़ाइन */
+        .login-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 450px; margin: 0 auto; }
+        
+        /* लैपटॉप पर प्रोफाइल और स्टैट्स को अगल-बगल दिखाने के लिए Grid */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; display: none; }
+        
+        /* लैपटॉप (बड़ी स्क्रीन) के लिए CSS */
+        @media (min-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr 2fr; } /* प्रोफाइल लेफ्ट में, डिटेल्स राइट में */
+            .main-container { margin: 60px auto; }
+        }
+
+        /* प्रोफाइल कार्ड का डिज़ाइन */
+        .profile-card { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; border: 4px solid white; object-fit: cover; margin-bottom: 15px; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        /* स्टैट्स और अटेंडेंस बॉक्स */
+        .info-card { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); height: 100%; }
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .stat-box { background: #f8fafc; padding: 20px 10px; border-radius: 15px; text-align: center; border: 1px solid #e2e8f0; transition: 0.3s; }
+        
+        /* KYP Official Colors for buttons/accents */
+        .btn-kyp { background-color: #2563eb; color: white; transition: 0.3s; border: none; }
+        .btn-kyp:hover { background-color: #1d4ed8; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); }
+
+        /* नोटिस बोर्ड अलर्ट */
+        .notice-alert { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<!-- SEO के लिए मुख्य हेडिंग (यह पेज पर नहीं दिखेगी, लेकिन Google इसे पढ़ेगा) -->
+<h1 class="visually-hidden">KYP SDC Simri Student Portal - Kriti Edify KYP Login</h1>
+
+<div class="main-container">
+    
+    <!-- 1. LOGIN SCREEN -->
+    <div id="loginScreen" class="login-box text-center">
+        <div class="mb-3">
+            <!-- KYP Logo Placeholder (अगर आपके पास URL है तो यहाँ लगा सकते हैं) -->
+            <div style="width: 80px; height: 80px; background: #e2e8f0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #cbd5e1; margin-bottom: 10px;">
+                <i class="fas fa-laptop-code fa-2x text-secondary"></i>
+            </div>
+        </div>
+        <h4 class="fw-bold text-dark mb-1">Student Portal</h4>
+        <p class="text-muted small mb-4 fw-bold">SDC SIMRI (KYP06020030) <br> <span class="text-primary">Kriti Edify Pvt. Ltd.</span></p>
+        
+        <div class="mb-3 text-start">
+            <label class="small fw-bold text-muted mb-1">Aadhar Number (आधार नंबर)</label>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0"><i class="fas fa-id-card text-muted"></i></span>
+                <input type="text" id="loginAadhar" class="form-control border-start-0 fw-bold" placeholder="1234 5678 9012" maxlength="14" oninput="formatAadhar(this)">
+            </div>
+        </div>
+        <div class="mb-4 text-start">
+            <label class="small fw-bold text-muted mb-1">Date of Birth (जन्मतिथि)</label>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0"><i class="fas fa-calendar-alt text-muted"></i></span>
+                <input type="date" id="loginDob" class="form-control border-start-0 fw-bold">
+            </div>
+        </div>
+        
+        <button id="btn-login" class="btn btn-kyp btn-lg w-100 fw-bold rounded-pill" onclick="studentLogin()">
+            <i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें
+        </button>
+        <p id="errorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
+    </div>
+
+    <!-- 2. DASHBOARD SCREEN -->
+    <div id="dashboardScreen" class="dashboard-grid">
+        
+        <!-- लेफ्ट साइड (या मोबाइल पर सबसे ऊपर): प्रोफाइल -->
+        <div>
+            <div class="profile-card">
+                <img id="sPhoto" src="" class="profile-img">
+                <h4 id="sName" class="fw-bold mb-1 text-uppercase">Student Name</h4>
+                <div class="badge bg-white text-dark mb-3 px-3 py-2 rounded-pill" style="font-size: 12px; font-weight: 800;">
+                    SI.No: <span id="sSiNo">00</span>
+                </div>
+                
+                <div class="bg-light bg-opacity-10 rounded-3 p-3 text-start mt-2 border border-light border-opacity-25">
+                    <p class="small m-0 mb-2"><i class="fas fa-mobile-alt me-2 text-info"></i> <span id="sMobile"></span></p>
+                    <p class="small m-0 mb-2"><i class="fas fa-venus-mars me-2 text-info"></i> <span id="sGender"></span></p>
+                    <p class="small m-0 fw-bold text-warning"><i class="fas fa-clock me-2"></i> Batch: <span id="sBatch"></span></p>
+                </div>
+            </div>
+            
+            <button class="btn btn-outline-secondary w-100 fw-bold rounded-pill mt-3 p-2 bg-white shadow-sm" onclick="logout()">
+                <i class="fas fa-power-off me-2 text-danger"></i> LOGOUT
+            </button>
+        </div>
+
+        <!-- राइट साइड (या मोबाइल पर नीचे): अटेंडेंस और डिटेल्स -->
+        <div>
+            <!-- लाइव नोटिस बोर्ड -->
+            <div class="notice-alert shadow-sm">
+                <h6 class="fw-bold text-dark m-0 mb-1"><i class="fas fa-bullhorn text-warning me-2"></i> आवश्यक सूचना</h6>
+                <p class="small text-muted m-0 fw-bold">कौशल विकास केंद्र (SDC Simri) के सभी छात्र अपने निर्धारित बैच के समय (Batch Time) पर क्लास में उपस्थित रहें।</p>
+            </div>
+
+            <!-- अटेंडेंस रिपोर्ट -->
+            <div class="info-card">
+                <h5 class="fw-bold text-dark border-bottom pb-2"><i class="fas fa-chart-pie text-primary me-2"></i> Attendance Record</h5>
+                
+                <div class="stat-grid">
+                    <div class="stat-box border-bottom border-secondary border-4">
+                        <h2 id="attTotal" class="fw-bold text-dark m-0">0</h2>
+                        <small class="text-muted fw-bold" style="font-size:11px;">TOTAL CLASS</small>
+                    </div>
+                    <div class="stat-box border-bottom border-success border-4">
+                        <h2 id="attPresent" class="fw-bold text-success m-0">0</h2>
+                        <small class="text-muted fw-bold" style="font-size:11px;">PRESENT</small>
+                    </div>
+                    <div class="stat-box border-bottom border-danger border-4">
+                        <h2 id="attAbsent" class="fw-bold text-danger m-0">0</h2>
+                        <small class="text-muted fw-bold" style="font-size:11px;">ABSENT</small>
+                    </div>
+                </div>
+
+                <!-- प्रोग्रेस बार -->
+                <div class="mt-4 pt-2">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="small fw-bold text-muted">Attendance Percentage</span>
+                        <span id="attPercent" class="small fw-bold text-primary">0%</span>
+                    </div>
+                    <div class="progress rounded-pill" style="height: 10px; background: #e2e8f0;">
+                        <div id="attProgressBar" class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Text -->
+            <div class="text-center mt-3">
+                <small class="text-muted fw-bold" style="font-size: 10px;">KUSHAL YUVA PROGRAM (KYP) | SKILL DEVELOPMENT CENTRE</small>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+// Supabase Database Connection
+const SUPABASE_URL = 'https://fnafxhtwuzavnanlwkbm.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuYWZ4aHR3dXphdm5hbmx3a2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NzQ0NTEsImV4cCI6MjA5MjQ1MDQ1MX0.gHaGjTGJ0U7Jk1eKUyLTZtz0hYzMThcZxTi4bXZ5tyc'; 
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function formatAadhar(input) {
+    let value = input.value.replace(/\D/g, ''); 
+    input.value = value.match(/.{1,4}/g)?.join(' ') || value;
+}
+
+async function studentLogin() {
+    const aadharRaw = document.getElementById('loginAadhar').value;
+    const aadharClean = aadharRaw.replace(/\s/g, ''); 
+    const dob = document.getElementById('loginDob').value;
+    const errorMsg = document.getElementById('errorMsg');
+    const btn = document.getElementById('btn-login');
+
+    if(!aadharRaw || !dob) {
+        errorMsg.innerText = "कृपया आधार नंबर और जन्मतिथि दोनों भरें!";
+        errorMsg.style.display = "block";
+        return;
+    }
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Checking...';
+    btn.disabled = true;
+
+    try {
+        const { data, error } = await _supabase
+            .from('students')
+            .select('*')
+            .eq('dob', dob)
+            .or(`aadhar.eq."${aadharRaw}",aadhar.eq."${aadharClean}"`)
+            .single();
+
+        if (error || !data) {
+            errorMsg.innerHTML = "<i class='fas fa-exclamation-triangle me-1'></i> रिकॉर्ड नहीं मिला! कृपया जानकारी चेक करें।";
+            errorMsg.style.display = "block";
+        } else {
+            errorMsg.style.display = "none";
+            showDashboard(data);
+        }
+    } catch (err) {
+        errorMsg.innerText = "सर्वर एरर, कृपया बाद में प्रयास करें।";
+        errorMsg.style.display = "block";
+    } finally {
+        btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें';
+        btn.disabled = false;
+    }
+}
+
+async function showDashboard(student) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboardScreen').style.display = 'grid'; 
+
+    document.getElementById('sName').innerText = student.name;
+    document.getElementById('sSiNo').innerText = student.siNo || "N/A";
+    document.getElementById('sBatch').innerText = student.remark || "Not Assigned";
+    document.getElementById('sMobile').innerText = student.mobile || "N/A";
+    document.getElementById('sGender').innerText = student.gender || "N/A";
+    
+    const photoEl = document.getElementById('sPhoto');
+    photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
+
+    const { data: logs } = await _supabase
+        .from('attendance_logs')
+        .select('status')
+        .eq('student_id', student.id);
+
+    let total = 0, present = 0, absent = 0, rate = 0;
+
+    if (logs && logs.length > 0) {
+        total = logs.length;
+        present = logs.filter(l => l.status === 'Present').length;
+        absent = total - present;
+        rate = Math.round((present / total) * 100);
+    }
+
+    document.getElementById('attTotal').innerText = total;
+    document.getElementById('attPresent').innerText = present;
+    document.getElementById('attAbsent').innerText = absent;
+    
+    document.getElementById('attPercent').innerText = rate + "%";
+    
+    const bar = document.getElementById('attProgressBar');
+    bar.style.width = rate + "%";
+    if(rate < 50) { bar.className = "progress-bar bg-danger progress-bar-striped progress-bar-animated"; }
+    else if(rate < 75) { bar.className = "progress-bar bg-warning progress-bar-striped progress-bar-animated"; }
+    else { bar.className = "progress-bar bg-success progress-bar-striped progress-bar-animated"; }
+}
+
+function logout() {
+    document.getElementById('loginAadhar').value = '';
+    document.getElementById('loginDob').value = '';
+    document.getElementById('dashboardScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'block';
+}
+</script>
+</body>
+</html>
