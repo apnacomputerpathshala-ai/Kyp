@@ -361,6 +361,10 @@ function installPWA() {
 // 2. Service Worker & Update Popup Logic
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').then(reg => {
+        
+        // 👇 यह लाइन नई जोड़ी गई है: पेज लोड होते ही तुरंत अपडेट चेक करें 👇
+        reg.update(); 
+
         reg.addEventListener('updatefound', () => {
             newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
@@ -381,8 +385,12 @@ function forceUpdateApp() {
             for (let reg of regs) { reg.update(); }
         });
     }
-    setTimeout(() => window.location.reload(true), 500); // पेज रिफ्रेश
+    // अपडेट होने के बाद पेज को हार्ड रिफ्रेश करें
+    setTimeout(() => {
+        window.location.reload(true);
+    }, 500); 
 }
+
 </script>
 </body>
 </html>
