@@ -163,8 +163,13 @@
             </div>
             
             <!-- Footer Text -->
-            <div class="text-center mt-3">
-                <small class="text-muted fw-bold" style="font-size: 10px;">KUSHAL YUVA PROGRAM (KYP) | SKILL DEVELOPMENT CENTRE</small>
+            <div class="text-center mt-3" style="cursor: pointer;" onclick="toggleCenterInfo()">
+                <small class="text-muted fw-bold" style="font-size: 10px;">
+                    KUSHAL YUVA PROGRAM (KYP) <i class="fas fa-chevron-down ms-1" id="centerIcon"></i>
+                </small>
+                <div id="centerDetails" style="display: none; font-size: 10px;" class="text-muted mt-1 fw-bold">
+                    SKILL DEVELOPMENT CENTRE | SDC SIMRI
+                </div>
             </div>
         </div>
         
@@ -177,9 +182,62 @@ const SUPABASE_URL = 'https://fnafxhtwuzavnanlwkbm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuYWZ4aHR3dXphdm5hbmx3a2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NzQ0NTEsImV4cCI6MjA5MjQ1MDQ1MX0.gHaGjTGJ0U7Jk1eKUyLTZtz0hYzMThcZxTi4bXZ5tyc'; 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// पेज लोड होते ही चेक करें कि क्या डेटा सेव है (Auto-Login)
+window.onload = async () => {
+    const savedAadhar = localStorage.getItem('studentAadhar');
+    const savedDob = localStorage.getItem('studentDob');
+    
+    if (savedAadhar && savedDob) {
+        document.getElementById('loginAadhar').value = savedAadhar;
+        document.getElementById('loginDob').value = savedDob;
+        await studentLogin(); 
+    }
+};
+
+// Footer टॉगल करने का फंक्शन
+function toggleCenterInfo() {
+    const info = document.getElementById('centerDetails');
+    const icon = document.getElementById('centerIcon');
+    if (info.style.display === 'none') {
+        info.style.display = 'block';
+        icon.className = 'fas fa-chevron-up ms-1';
+    } else {
+        info.style.display = 'none';
+        icon.className = 'fas fa-chevron-down ms-1';
+    }
+}
+
 function formatAadhar(input) {
     let value = input.value.replace(/\D/g, ''); 
     input.value = value.match(/.{1,4}/g)?.join(' ') || value;
+}
+
+// अटेंडेंस कैलकुलेट और अपडेट करने का फंक्शन
+async function updateAttendanceUI(studentId) {
+    const { data: logs } = await _supabase
+        .from('attendance_logs')
+        .select('status')
+        .eq('student_id', studentId);
+
+    let total = 0, present = 0, absent = 0, rate = 0;
+
+    if (logs && logs.length > 0) {
+        total = logs.length;
+        present = logs.filter(l => l.status === 'Present').length;
+        absent = total - present;
+        rate = Math.round((present / total) * 100);
+    }
+
+    document.getElementById('attTotal').innerText = total;
+    document.getElementById('attPresent').innerText = present;
+    document.getElementById('attAbsent').innerText = absent;
+    document.getElementById('attPercent').innerText = rate + "%";
+    
+    const bar = document.getElementById('attProgressBar');
+    bar.style.width = rate + "%";
+    bar.className = rate < 50 ? "progress-bar bg-danger progress-bar-striped progress-bar-animated" : 
+                    rate < 75 ? "progress-bar bg-warning progress-bar-striped progress-bar-animated" : 
+                    "progress-bar bg-success progress-bar-striped progress-bar-animated";
 }
 
 async function studentLogin() {
@@ -211,6 +269,11 @@ async function studentLogin() {
             errorMsg.style.display = "block";
         } else {
             errorMsg.style.display = "none";
+            
+            // Login Details सेव कर रहे हैं ताकि रिफ्रेश पर लॉगआउट ना हो
+            localStorage.setItem('studentAadhar', aadharRaw);
+            localStorage.setItem('studentDob', dob);
+            
             showDashboard(data);
         }
     } catch (err) {
@@ -235,34 +298,27 @@ async function showDashboard(student) {
     const photoEl = document.getElementById('sPhoto');
     photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
 
-    const { data: logs } = await _supabase
-        .from('attendance_logs')
-        .select('status')
-        .eq('student_id', student.id);
+    // 1. पहली बार अटेंडेंस लोड करें
+    await updateAttendanceUI(student.id);
 
-    let total = 0, present = 0, absent = 0, rate = 0;
-
-    if (logs && logs.length > 0) {
-        total = logs.length;
-        present = logs.filter(l => l.status === 'Present').length;
-        absent = total - present;
-        rate = Math.round((present / total) * 100);
-    }
-
-    document.getElementById('attTotal').innerText = total;
-    document.getElementById('attPresent').innerText = present;
-    document.getElementById('attAbsent').innerText = absent;
-    
-    document.getElementById('attPercent').innerText = rate + "%";
-    
-    const bar = document.getElementById('attProgressBar');
-    bar.style.width = rate + "%";
-    if(rate < 50) { bar.className = "progress-bar bg-danger progress-bar-striped progress-bar-animated"; }
-    else if(rate < 75) { bar.className = "progress-bar bg-warning progress-bar-striped progress-bar-animated"; }
-    else { bar.className = "progress-bar bg-success progress-bar-striped progress-bar-animated"; }
+    // 2. Realtime Listener ऑन करें (बिना रिफ्रेश अटेंडेंस अपडेट के लिए)
+    _supabase.channel('custom-attendance-channel')
+        .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'attendance_logs', filter: `student_id=eq.${student.id}` },
+            (payload) => {
+                console.log('Attendance changed in database!');
+                updateAttendanceUI(student.id);
+            }
+        )
+        .subscribe();
 }
 
 function logout() {
+    // सेव किया हुआ लॉगिन डेटा हटा रहे हैं
+    localStorage.removeItem('studentAadhar');
+    localStorage.removeItem('studentDob');
+    
     document.getElementById('loginAadhar').value = '';
     document.getElementById('loginDob').value = '';
     document.getElementById('dashboardScreen').style.display = 'none';
