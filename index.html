@@ -107,9 +107,14 @@
             <div class="profile-card">
                 <img id="sPhoto" src="" class="profile-img">
                 <h4 id="sName" class="fw-bold mb-1 text-uppercase">Student Name</h4>
-                <div class="badge bg-white text-dark mb-3 px-3 py-2 rounded-pill" style="font-size: 12px; font-weight: 800;">
-                    SI.No: <span id="sSiNo">00</span>
-                </div>
+                <div class="badge bg-white text-dark mb-2 px-3 py-2 rounded-pill" style="font-size: 12px; font-weight: 800;">
+    SI.No: <span id="sSiNo">00</span>
+</div>
+
+<!-- NAYA: ID Badges Container -->
+<div id="studentIdBadges" class="d-flex justify-content-center gap-2 mb-3 flex-wrap">
+    <!-- JS se ID yahan show hongi -->
+</div>
                 
                 <div class="bg-light bg-opacity-10 rounded-3 p-3 text-start mt-2 border border-light border-opacity-25">
                     <p class="small m-0 mb-2"><i class="fas fa-mobile-alt me-2 text-info"></i> <span id="sMobile"></span></p>
@@ -181,6 +186,7 @@
 const SUPABASE_URL = 'https://fnafxhtwuzavnanlwkbm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuYWZ4aHR3dXphdm5hbmx3a2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NzQ0NTEsImV4cCI6MjA5MjQ1MDQ1MX0.gHaGjTGJ0U7Jk1eKUyLTZtz0hYzMThcZxTi4bXZ5tyc'; 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let attendanceChannel;
 
 // पेज लोड होते ही चेक करें कि क्या डेटा सेव है (Auto-Login)
 window.onload = async () => {
@@ -294,6 +300,14 @@ async function showDashboard(student) {
     document.getElementById('sBatch').innerText = student.remark || "Not Assigned";
     document.getElementById('sMobile').innerText = student.mobile || "N/A";
     document.getElementById('sGender').innerText = student.gender || "N/A";
+    let badgesHtml = '';
+    if(student.mnssbyId && student.mnssbyId !== "-") {
+        badgesHtml += `<span class="badge bg-primary text-white px-3 py-2 rounded-pill shadow-sm" style="font-size: 11px;"><i class="fas fa-id-card me-1"></i> KYP: ${student.mnssbyId}</span>`;
+    }
+    if(student.deepId && student.deepId !== "-") {
+        badgesHtml += `<span class="badge bg-success text-white px-3 py-2 rounded-pill shadow-sm" style="font-size: 11px;"><i class="fas fa-laptop-code me-1"></i> DEEP: ${student.deepId}</span>`;
+    }
+    document.getElementById('studentIdBadges').innerHTML = badgesHtml;
     
     const photoEl = document.getElementById('sPhoto');
     photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
@@ -303,6 +317,7 @@ async function showDashboard(student) {
 
     // 2. Realtime Listener ऑन करें (बिना रिफ्रेश अटेंडेंस अपडेट के लिए)
     _supabase.channel('custom-attendance-channel')
+    attendanceChannel = _supabase.channel('custom-attendance-channel')
         .on(
             'postgres_changes',
             { event: '*', schema: 'public', table: 'attendance_logs', filter: `student_id=eq.${student.id}` },
@@ -318,7 +333,9 @@ function logout() {
     // सेव किया हुआ लॉगिन डेटा हटा रहे हैं
     localStorage.removeItem('studentAadhar');
     localStorage.removeItem('studentDob');
-    
+    if (attendanceChannel) {
+        _supabase.removeChannel(attendanceChannel);
+    }
     document.getElementById('loginAadhar').value = '';
     document.getElementById('loginDob').value = '';
     document.getElementById('dashboardScreen').style.display = 'none';
