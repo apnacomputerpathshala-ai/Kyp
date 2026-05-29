@@ -1,4 +1,4 @@
-const CACHE_NAME = 'student-portal-v5.0'; 
+const CACHE_NAME = 'student-portal-v6.0'; 
 
 const assets = [
   './',
