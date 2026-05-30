@@ -211,6 +211,10 @@
             <button class="btn btn-outline-secondary w-100 fw-bold rounded-pill mt-2 p-2 bg-white shadow-sm" onclick="logout()">
                 <i class="fas fa-power-off me-2 text-danger"></i> LOGOUT
             </button>
+            <button id="checkUpdateBtn" class="btn btn-outline-info w-100 fw-bold rounded-pill mt-2 p-2 bg-white shadow-sm" onclick="checkForUpdates()">
+    <i class="fas fa-sync-alt me-2 text-info"></i> CHECK UPDATE
+</button>
+
 
             <div class="text-center mt-3" style="cursor: pointer;" onclick="toggleCenterInfo()">
                 <small class="text-muted fw-bold" style="font-size: 10px;">
@@ -309,13 +313,6 @@ async function updateAttendanceUI(studentId) {
 }
 
 async function studentLogin() {
-    // नया चेक: क्या ऐप इंस्टॉल है?
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    
-    if (!isStandalone) {
-        alert("⚠️ कृपया पहले इस वेबसाइट को अपने फोन में 'Install' करें, तभी आप लॉगिन कर पाएंगे।");
-        return; 
-    }
     const aadharRaw = document.getElementById('loginAadhar').value;
     const aadharClean = aadharRaw.replace(/\s/g, ''); 
     const dob = document.getElementById('loginDob').value;
@@ -364,6 +361,7 @@ async function studentLogin() {
         btn.disabled = false;
     }
 }
+
 
 async function showDashboard(student) {
     document.getElementById('loginScreen').style.display = 'none';
@@ -617,6 +615,39 @@ function forceUpdateApp() {
         window.location.reload(true);
     }, 500); 
 }
+function checkForUpdates() {
+    const btn = document.getElementById('checkUpdateBtn');
+    const originalText = btn.innerHTML;
+    
+    // लोडिंग इफ़ेक्ट दिखाएं
+    if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Checking...';
+    
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            if (regs.length > 0) {
+                // सभी सर्विस वर्कर को अपडेट के लिए चेक करें
+                regs.forEach(reg => reg.update());
+                
+                // 1.5 सेकंड का इंतज़ार करें ताकि अपडेट चेक हो सके
+                setTimeout(() => {
+                    if(btn) btn.innerHTML = originalText;
+                    
+                    // अगर अपडेट का पॉप-अप (updateNotice) नहीं खुला, मतलब ऐप अप-टू-डेट है
+                    if (document.getElementById('updateNotice').style.display === 'none') {
+                        alert("✅ आपका पोर्टल पहले से ही लेटेस्ट वर्ज़न (Latest Version) पर है!");
+                    }
+                }, 1500);
+            } else {
+                // अगर सर्विस वर्कर नहीं है तो सीधे पेज रिफ्रेश कर दें
+                window.location.reload(true);
+            }
+        });
+    } else {
+        // पुराने ब्राउज़र के लिए
+        window.location.reload(true);
+    }
+}
+
 </script>
 </body>
 </html>
