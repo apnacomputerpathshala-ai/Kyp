@@ -351,6 +351,11 @@ async function studentLogin() {
             errorMsg.style.display = "none";
             localStorage.setItem('studentAadhar', aadharRaw);
             localStorage.setItem('studentDob', dob);
+            
+            // ✅ NAYA LOGIC: Student ke login karte hi time database me save karein
+            const now = new Date().toISOString();
+            await _supabase.from('students').update({ last_login: now }).eq('id', data.id);
+            
             showDashboard(data);
         }
     } catch (err) {
@@ -361,6 +366,7 @@ async function studentLogin() {
         btn.disabled = false;
     }
 }
+
 
 
 async function showDashboard(student) {
@@ -544,7 +550,7 @@ async function submitNewRegistration(e) {
         const { error } = await _supabase.from('students').insert([data]);
         if (error) throw error;
 
-        alert("🎉 आपका रजिस्ट्रेशन सफलतापूर्वक हो गया है!\n\nसर इसे चेक करके आपका एडमिशन 'Active' करेंगे, उसके बाद ही आप लॉगिन कर पाएंगे।");
+        alert("🎉 आपका रजिस्ट्रेशन सफलतापूर्वक हो गया है! सर इसे चेक करके आपका एडमिशन 'Active' करेंगे, उसके बाद ही आप लॉगिन कर पाएंगे।");
         hideRegistrationScreen();
 
     } catch (err) {
