@@ -13,46 +13,101 @@
     <meta name="robots" content="index, follow">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <style>
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; }
-        
-        /* Google SEO के लिए हिडन H1 टैग */
+        /* iOS System Font & Colors - Premium Depth Edition */
+        body { background-color: #f2f2f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1c1c1e; }
         .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
-        
-        /* लैपटॉप और मोबाइल दोनों के लिए बढ़िया डिज़ाइन */
         .main-container { max-width: 900px; margin: 40px auto; padding: 0 15px; }
-        
-        /* लॉगिन बॉक्स का डिज़ाइन */
-        .login-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 450px; margin: 0 auto; }
-        
-        /* लैपटॉप पर प्रोफाइल और स्टैट्स को अगल-बगल दिखाने के लिए Grid */
+
+        /* Premium iOS Cards (हवा में तैरने वाला Soft Shadow इफ़ेक्ट) */
+        .login-box, .ios-card { background: #ffffff; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); padding: 25px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 18px; position: relative; overflow: hidden; }
+
+        /* Profile Card - Pure White with Depth */
+        .profile-card { background: #ffffff; color: #1c1c1e; border-radius: 24px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); }
+        .profile-img { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #ffffff; box-shadow: 0 8px 20px rgba(0,0,0,0.12); object-fit: cover; margin-bottom: 15px; background: #e5e5ea; }
+
+        /* Premium iOS Buttons (क्लिक करने पर दबने वाला इफ़ेक्ट) */
+        .ios-btn-main { background: linear-gradient(180deg, #ffffff 0%, #f2f2f7 100%); color: #1c1c1e; border-radius: 16px; border: 1px solid #d1d1d6; padding: 15px; font-weight: 700; font-size: 15px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+                /* Premium iOS Login Button */
+        .ios-btn-primary { background: linear-gradient(180deg, #007aff 0%, #005bb5 100%); color: #ffffff; border-radius: 18px; border: none; padding: 16px; font-weight: 700; font-size: 16px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3); width: 100%; cursor: pointer; }
+        .ios-btn-primary:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2); background: #005bb5; }
+
+        .ios-btn-main:active { transform: scale(0.95); box-shadow: 0 2px 6px rgba(0,0,0,0.02); background: #e5e5ea; }
+
+        .ios-btn-grey { background-color: #f2f2f7; color: #1c1c1e; border-radius: 14px; border: 1px solid transparent; padding: 14px; font-weight: 600; font-size: 14px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; }
+        .ios-btn-grey:active { transform: scale(0.95); background-color: #e5e5ea; border: 1px solid #d1d1d6; }
+
+        /* Stats & Attendance */
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+        .stat-box { background: linear-gradient(180deg, #ffffff 0%, #f2f2f7 100%); padding: 18px 5px; border-radius: 18px; text-align: center; box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 2px 8px rgba(0,0,0,0.03); border: 1px solid #e5e5ea; }
+
+        /* iOS Quick Actions Grid */
+        .ios-action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px; }
+        .ios-action-item { background: #ffffff; border-radius: 20px; padding: 18px 10px; text-align: center; color: #1c1c1e; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.2s; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #e5e5ea; }
+        .ios-action-item:active { transform: scale(0.92); background: #f2f2f7; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .ios-action-icon { font-size: 28px; margin-bottom: 10px; color: #1c1c1e; }
+
+        /* Notice Alert */
+        .notice-alert { background: #ffffff; border-left: 5px solid #007aff; padding: 16px; border-radius: 16px; margin-bottom: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e5e5ea; }
+
         .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; display: none; }
-        
-        /* लैपटॉप (बड़ी स्क्रीन) के लिए CSS */
-        @media (min-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr 2fr; }
-            .main-container { margin: 60px auto; }
+        @media (min-width: 768px) { .dashboard-grid { grid-template-columns: 1fr 2fr; } }
+                /* Premium iOS Update & Logout Buttons */
+        .ios-btn-update {
+            background: linear-gradient(180deg, #f0f7ff 0%, #e0f0ff 100%);
+            color: #007aff;
+            border-radius: 16px;
+            border: 1px solid #cce4ff;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.15);
+            cursor: pointer;
         }
+        .ios-btn-update:active { transform: scale(0.94); box-shadow: 0 2px 5px rgba(0, 122, 255, 0.1); background: #d6eaff; }
 
-        /* प्रोफाइल कार्ड का डिज़ाइन */
-        .profile-card { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
-        .profile-img { width: 120px; height: 120px; border-radius: 50%; border: 4px solid white; object-fit: cover; margin-bottom: 15px; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .ios-btn-logout {
+            background: linear-gradient(180deg, #fff0f0 0%, #ffe0e0 100%);
+            color: #ff3b30;
+            border-radius: 16px;
+            border: 1px solid #ffcaca;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(255, 59, 48, 0.15);
+            cursor: pointer;
+        }
+        .ios-btn-logout:active { transform: scale(0.94); box-shadow: 0 2px 5px rgba(255, 59, 48, 0.1); background: #ffd6d6; }
         
-        /* स्टैट्स और अटेंडेंस बॉक्स */
-        .info-card { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); height: 100%; }
-        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-        .stat-box { background: #f8fafc; padding: 20px 10px; border-radius: 15px; text-align: center; border: 1px solid #e2e8f0; transition: 0.3s; }
-        
-        /* KYP Official Colors */
-        .btn-kyp { background-color: #2563eb; color: white; transition: 0.3s; border: none; }
-        .btn-kyp:hover { background-color: #1d4ed8; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); }
+                /* New Colored Premium iOS Buttons */
+        .ios-btn-purple { background: linear-gradient(180deg, #f4f0ff 0%, #e8ddff 100%); color: #5856d6; border-radius: 16px; border: 1px solid #d9caff; padding: 16px; font-weight: 700; font-size: 15px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(88, 86, 214, 0.15); width: 100%; cursor: pointer; }
+        .ios-btn-purple:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(88, 86, 214, 0.1); background: #ded0ff; }
 
-        /* नोटिस बोर्ड अलर्ट */
-        .notice-alert { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .ios-btn-orange { background: linear-gradient(180deg, #fff4e6 0%, #ffe4c2 100%); color: #ff9500; border-radius: 16px; border: 1px solid #ffd499; padding: 16px; font-weight: 700; font-size: 15px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(255, 149, 0, 0.15); width: 100%; cursor: pointer; }
+        .ios-btn-orange:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(255, 149, 0, 0.1); background: #ffdbab; }
+
+        .ios-btn-teal { background: linear-gradient(180deg, #e0fcf7 0%, #c2f2e8 100%); color: #00c7be; border-radius: 16px; border: 1px solid #a1e6d9; padding: 16px; font-weight: 700; font-size: 15px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 199, 190, 0.15); width: 100%; cursor: pointer; }
+        .ios-btn-teal:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0, 199, 190, 0.1); background: #aee8dd; }
+
+        .ios-btn-green { background: linear-gradient(180deg, #ebfcee 0%, #d1f5d9 100%); color: #34c759; border-radius: 16px; border: 1px solid #b3ebc1; padding: 14px; font-weight: 700; font-size: 14px; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.15); width: 100%; cursor: pointer; margin: 0 auto; }
+        .ios-btn-green:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(52, 199, 89, 0.1); background: #bef0c8; }
+
+
     </style>
+
 </head>
 <body>
 
@@ -82,22 +137,24 @@
             </div>
         </div>
         
-        <button id="btn-login" class="btn btn-kyp btn-lg w-100 fw-bold rounded-pill" onclick="studentLogin()">
-            <i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें
+        <button id="btn-login" class="ios-btn-primary" onclick="studentLogin()">
+            <i class="fas fa-sign-in-alt fs-5"></i> LOGIN / प्रवेश करें
         </button>
+
 
         <p id="errorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
         
-        <div class="mt-4 pt-3 border-top text-center">
-            <p class="small text-muted mb-2 fw-bold" style="font-size: 11px;">नया एडमिशन लेना है?</p>
-            <button type="button" class="btn btn-light btn-sm fw-bold rounded-pill text-primary shadow-sm border border-primary-subtle px-4 py-2" onclick="showRegistrationScreen()">
-                <i class="fas fa-user-plus me-1 text-success"></i> New Registration
+               <div class="mt-4 pt-4 border-top text-center">
+            <p class="small text-muted mb-3 fw-bold" style="font-size: 11px;">नया एडमिशन लेना है?</p>
+            <button type="button" class="ios-btn-green" style="width: 80%;" onclick="showRegistrationScreen()">
+                <i class="fas fa-user-plus fs-6"></i> New Registration
             </button>
         </div>
         
-        <button id="installAppBtn" class="btn btn-outline-primary btn-sm w-100 fw-bold rounded-pill mt-3 bg-white" style="display: none;" onclick="installPWA()">
-            <i class="fas fa-download me-2"></i> Install App
+        <button id="installAppBtn" class="ios-btn-update mt-3" style="display: none;" onclick="installPWA()">
+            <i class="fas fa-download fs-6"></i> Install App
         </button>
+
     </div>
 
     <div id="registrationScreen" class="login-box" style="display: none; max-width: 700px; text-align: left; padding: 30px;">
@@ -109,9 +166,10 @@
         <form id="newStudentForm" onsubmit="submitNewRegistration(event)">
             <h6 class="fw-bold text-secondary mt-3">Personal Details (व्यक्तिगत जानकारी)</h6>
             <div class="row g-2">
-                <div class="col-md-4"><label class="small fw-bold">Name (नाम)</label><input type="text" id="rName" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
-                <div class="col-md-4"><label class="small fw-bold">Father's Name</label><input type="text" id="rFather" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
-                <div class="col-md-4"><label class="small fw-bold">Date of Birth</label><input type="date" id="rDob" class="form-control form-control-sm" required></div>
+                <div class="col-md-3"><label class="small fw-bold">Name (नाम)</label><input type="text" id="rName" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
+                <div class="col-md-3"><label class="small fw-bold">Father's Name</label><input type="text" id="rFather" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
+                <div class="col-md-3"><label class="small fw-bold">Mother's Name</label><input type="text" id="rMother" class="form-control form-control-sm" required style="text-transform: uppercase;"></div>
+                <div class="col-md-3"><label class="small fw-bold">Date of Birth</label><input type="date" id="rDob" class="form-control form-control-sm" required></div>
                 
                 <div class="col-md-4"><label class="small fw-bold">Gender</label><select id="rGender" class="form-select form-select-sm" required><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
                 <div class="col-md-4"><label class="small fw-bold">Category</label><select id="rCategory" class="form-select form-select-sm" required><option value="GEN">GEN</option><option value="BC">BC</option><option value="EBC">EBC</option><option value="SC">SC</option><option value="ST">ST</option></select></div>
@@ -135,99 +193,219 @@
                 <div class="col-md-2"><label class="small fw-bold">Pass Year</label><input type="text" id="rPassYear" class="form-control form-control-sm" maxlength="4"></div>
             </div>
 
-            <h6 class="fw-bold text-secondary mt-4 border-top pt-2">Bank Details (बैंक खाता)</h6>
+          <h6 class="fw-bold text-secondary mt-4 border-top pt-2">Bank Details (बैंक खाता)</h6>
             <div class="row g-2">
-                <div class="col-md-4"><label class="small fw-bold">Bank Name</label><input type="text" id="rBankName" class="form-control form-control-sm"></div>
-                <div class="col-md-4"><label class="small fw-bold">Account No</label><input type="text" id="rAccNo" class="form-control form-control-sm" oninput="this.value = this.value.replace(/[^0-9]/g, '')"></div>
-                <div class="col-md-4"><label class="small fw-bold">IFSC Code</label><input type="text" id="rIfsc" class="form-control form-control-sm" style="text-transform: uppercase;"></div>
+                <div class="col-md-3"><label class="small fw-bold">Bank Name</label><input type="text" id="rBankName" class="form-control form-control-sm"></div>
+                <div class="col-md-3"><label class="small fw-bold">Branch Name</label><input type="text" id="rBranchName" class="form-control form-control-sm" style="text-transform: uppercase;"></div>
+                <div class="col-md-3"><label class="small fw-bold">Account No</label><input type="text" id="rAccNo" class="form-control form-control-sm" oninput="this.value = this.value.replace(/[^0-9]/g, '')"></div>
+                <div class="col-md-3"><label class="small fw-bold">IFSC Code</label><input type="text" id="rIfsc" class="form-control form-control-sm" style="text-transform: uppercase;"></div>
+            </div>
+                        <h6 class="fw-bold text-secondary mt-4 border-top pt-2">Course & Payment (कोर्स और फीस)</h6>
+            <div class="row g-2 align-items-center">
+                <div class="col-md-3">
+                    <label class="small fw-bold">Select Course</label>
+                    <select id="rCourse" class="form-select form-select-sm" required onchange="calculateFee()">
+                        <option value="">-- कोर्स चुनें --</option>
+                        <option value="DEEP_IT">DEEP IT Basic</option>
+                        <option value="ADVANCE_EXCEL">Advance Excel</option>
+                        <option value="AI_COURSE">AI Course</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3" id="excelModeDiv" style="display: none;">
+                    <label class="small fw-bold">Select Mode</label>
+                    <select id="rExcelMode" class="form-select form-select-sm" onchange="calculateFee()">
+                        <option value="ONLINE">1. Online Only (₹1800)</option>
+                        <option value="OFFLINE">2. Offline Only (₹3800)</option>
+                        <option value="HYBRID">3. Online+Offline+Support (₹4500)</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="small fw-bold text-primary">KYP Student (SDC Simri)?</label>
+                    <select id="rIsKyp" class="form-select form-select-sm border-primary" required onchange="calculateFee()">
+                        <option value="">-- चुनें --</option>
+                        <option value="NO">नहीं (Non-KYP)</option>
+                        <option value="OUR_CENTER">हाँ, SDC Simri से पास (Offer)</option>
+                    </select>
+                </div>
+
+                <!-- NAYA OPTION: PAYMENT MODE -->
+                <div class="col-md-3">
+                    <label class="small fw-bold text-success">Payment Mode</label>
+                    <select id="rPayMode" class="form-select form-select-sm border-success" onchange="calculateFee()">
+                        <option value="ONLINE">Online (UPI / QR)</option>
+                        <option value="CASH">Cash at Center</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-12 text-center mt-2">
+                    <div class="p-2 bg-success-subtle text-success border border-success-subtle rounded-3 position-relative mt-2 d-inline-block px-4">
+                        <span class="small fw-bold">Total Fee: </span><h5 class="m-0 fw-bold d-inline">₹<span id="displayFee">0</span></h5>
+                        <div id="aiFreeBadge" class="position-absolute top-0 start-50 translate-middle badge bg-danger rounded-pill shadow" style="display:none; font-size:10px;">
+                            + AI COURSE FREE <i class="fas fa-gift ms-1"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <p id="regErrorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
+            <!-- Verification Notice (सिर्फ SDC Simri छात्रों के लिए या Cash वालों के लिए) -->
+            <div class="mt-3 p-3 bg-warning-subtle border border-warning rounded-3 text-center shadow-sm" id="verificationNotice" style="display:none;">
+                <h6 class="fw-bold text-dark mb-1" id="verificationTitle"><i class="fas fa-id-card me-2 text-warning"></i> Aadhar Verification Required</h6>
+                <p class="small text-dark fw-bold m-0" id="verificationDesc">चूंकि आपने स्पेशल ऑफर चुना है, आपका पेमेंट अभी नहीं लिया जाएगा। फॉर्म सबमिट करने के बाद हमारे WhatsApp पर अपना <span class="text-danger">आधार कार्ड</span> भेजें।</p>
+            </div>
+
+            <!-- Payment Scanner Section (Online पेमेंट वालों के लिए) -->
+            <div class="mt-3 p-3 bg-light border rounded-3 shadow-sm" id="paymentSection" style="display:none;">
+                <h6 class="fw-bold text-primary mb-3 text-center border-bottom pb-2">Step 1: Complete Payment (पेमेंट करें)</h6>
+                
+                <div class="text-center mb-3">
+                  <p class="small text-primary fw-bold mb-2"><i class="fas fa-qrcode me-1"></i> Scan QR Code (स्कैन करें)</p>
+
+                  <img src="qrcode.png" alt="QR Code" style="width:100%; max-width:220px; border:3px solid #2563eb; border-radius:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 10px;">
+
+<div class="mt-2 bg-white d-inline-block px-3 py-2 rounded shadow-sm border" style="width: 100%; max-width: 250px;">
+    <p class="small text-muted m-0 fw-bold mb-1" style="font-size: 10px;">OFFICIAL UPI ID</p>
+    <div class="d-flex align-items-center justify-content-between bg-light p-2 rounded border">
+        <span class="text-dark fw-bold" style="font-size: 13px;" id="myUpiId">7320984915@apl</span>
+              <button type="button" style="background: linear-gradient(180deg, #007aff 0%, #005bb5 100%); color: white; border: none; border-radius: 10px; padding: 6px 12px; font-weight: bold; font-size: 11px; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2);" onclick="copyMyUPI()">
+            <i class="fas fa-copy"></i> COPY
+        </button>
+
+    </div>
+    <p class="small text-danger m-0 fw-bold mt-2" style="font-size: 10px;"><i class="fas fa-info-circle"></i> आप किसी भी ऐप (GPay, PhonePe, Paytm) से पेमेंट कर सकते हैं।</p>
+</div>
+                </div>
+                
+                <h6 class="fw-bold text-danger mb-2 mt-4 text-center border-top pt-3">Step 2: Enter Transaction Details (पेमेंट के बाद इसे भरें)</h6>
+                <div class="bg-white p-3 border rounded shadow-sm">
+                     <label class="small fw-bold text-success"><i class="fas fa-rupee-sign me-1"></i> Amount Paid Now (अभी कितना जमा किया?):</label>
+                     <input type="number" id="rFeePaid" class="form-control form-control-sm border-success mt-1 mb-2" placeholder="Ex: 500">
+
+                     <label class="small fw-bold text-danger"><i class="fas fa-receipt me-1"></i> Transaction ID (12-digit UTR):</label>
+                     <input type="text" id="rTxnId" class="form-control form-control-sm border-danger" placeholder="पेमेंट होने के बाद UTR यहाँ डालें">
+                </div>
+            </div>
+
+                       <p id="regErrorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
             
-            <button id="btn-submit-reg" type="submit" class="btn btn-primary w-100 fw-bold rounded-pill mt-4 p-2 shadow-sm">
-                SUBMIT REGISTRATION
+            <button id="btn-submit-reg" type="submit" class="ios-btn-primary mt-4">
+                <i class="fas fa-paper-plane fs-6"></i> SUBMIT REGISTRATION
             </button>
+
         </form>
     </div>
-
     <div id="dashboardScreen" class="dashboard-grid">
         
+        <!-- Profile Section -->
         <div>
             <div class="profile-card">
                 <img id="sPhoto" src="" class="profile-img">
-                <h4 id="sName" class="fw-bold mb-1 text-uppercase">Student Name</h4>
-                <div class="badge bg-white text-dark mb-2 px-3 py-2 rounded-pill" style="font-size: 12px; font-weight: 800;">
+                <h4 id="sName" class="fw-bold mb-1 text-uppercase text-dark" style="letter-spacing: 0.5px;">Student Name</h4>
+                <div class="badge mb-3 px-3 py-2 rounded-pill" style="font-size: 11px; font-weight: 700; background-color: #f2f2f7; color: #8e8e93; border: 1px solid #e5e5ea;">
                     SI.No: <span id="sSiNo">00</span>
                 </div>
 
                 <div id="studentIdBadges" class="d-flex justify-content-center gap-2 mb-3 flex-wrap"></div>
                 
-                <div class="bg-light bg-opacity-10 rounded-3 p-3 text-start mt-2 border border-light border-opacity-25">
-                    <p class="small m-0 mb-2"><i class="fas fa-mobile-alt me-2 text-info"></i> <span id="sMobile"></span></p>
-                    <p class="small m-0 mb-2"><i class="fas fa-venus-mars me-2 text-info"></i> <span id="sGender"></span></p>
-                    <p class="small m-0 fw-bold text-warning"><i class="fas fa-clock me-2"></i> Batch: <span id="sBatch"></span></p>
+                <div class="rounded-4 p-3 text-start mt-2" style="background: #f8f8f8; border: 1px solid #e5e5ea; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);">
+                    <p class="small m-0 mb-2 text-dark fw-bold"><i class="fas fa-mobile-alt me-3 text-secondary"></i><span id="sMobile"></span></p>
+                    <p class="small m-0 mb-2 text-dark fw-bold"><i class="fas fa-venus-mars me-3 text-secondary"></i><span id="sGender"></span></p>
+                    <p class="small m-0 fw-bold text-dark"><i class="fas fa-clock me-3 text-primary"></i>Batch: <span id="sBatch"></span></p>
                 </div>
             </div>
             
-            <button id="mkclBtn" class="btn btn-success w-100 fw-bold rounded-pill mt-3 p-2 shadow-sm" onclick="openMKCLPortal()">
-                <i class="fas fa-globe me-2"></i> Edunext student login
+            <button id="mkclBtn" class="ios-btn-purple mt-4" onclick="openMKCLPortal()">
+                <i class="fas fa-laptop-code fs-5"></i> Edunext Student Login
+            </button>
+            <button id="dashboardPayBtn" class="ios-btn-orange mt-3" style="display: none;" onclick="openPaymentModal()">
+                <i class="fas fa-qrcode fs-5"></i> Pay Pending Fee
             </button>
         </div>
 
+        <!-- Stats & Features Section -->
         <div>
-            <div class="notice-alert shadow-sm">
-                <h6 class="fw-bold text-dark m-0 mb-1"><i class="fas fa-bullhorn text-warning me-2"></i> आवश्यक सूचना</h6>
-                <p class="small text-muted m-0 fw-bold">कौशल विकास केंद्र (SDC Simri) के सभी छात्र अपने निर्धारित बैच के समय (Batch Time) पर क्लास में उपस्थित रहें।</p>
+            <div class="notice-alert">
+                <div class="d-flex align-items-center mb-1">
+                    <i class="fas fa-bell fs-5 me-2" style="color: #007aff;"></i>
+                    <h6 class="fw-bold text-dark m-0">Important Notice</h6>
+                </div>
+                <p class="small text-muted m-0 mt-1" style="font-weight: 500; line-height: 1.4;">कौशल विकास केंद्र (SDC Simri) के सभी छात्र अपने निर्धारित बैच के समय पर क्लास में उपस्थित रहें।</p>
             </div>
 
-            <div class="info-card">
-                <h5 class="fw-bold text-dark border-bottom pb-2"><i class="fas fa-chart-pie text-primary me-2"></i> Attendance Record</h5>
+            <!-- Attendance Card -->
+            <div class="ios-card">
+                <h5 class="fw-bold text-dark border-bottom pb-3 m-0"><i class="fas fa-chart-pie text-secondary me-2"></i> Attendance Record</h5>
                 <div class="stat-grid">
-                    <div class="stat-box border-bottom border-secondary border-4">
+                    <div class="stat-box">
                         <h2 id="attTotal" class="fw-bold text-dark m-0">0</h2>
-                        <small class="text-muted fw-bold" style="font-size:11px;">TOTAL CLASS</small>
+                        <small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">TOTAL</small>
                     </div>
-                    <div class="stat-box border-bottom border-success border-4">
+                    <div class="stat-box">
                         <h2 id="attPresent" class="fw-bold text-success m-0">0</h2>
-                        <small class="text-muted fw-bold" style="font-size:11px;">PRESENT</small>
+                        <small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">PRESENT</small>
                     </div>
-                    <div class="stat-box border-bottom border-danger border-4">
+                    <div class="stat-box">
                         <h2 id="attAbsent" class="fw-bold text-danger m-0">0</h2>
-                        <small class="text-muted fw-bold" style="font-size:11px;">ABSENT</small>
+                        <small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">ABSENT</small>
                     </div>
                 </div>
-
+                
                 <div class="mt-4 pt-2">
-                    <div class="d-flex justify-content-between mb-1">
-                        <span class="small fw-bold text-muted">Attendance Percentage</span>
-                        <span id="attPercent" class="small fw-bold text-primary">0%</span>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="small fw-bold text-muted">Overall Percentage</span>
+                        <span id="attPercent" class="small fw-bold text-dark">0%</span>
                     </div>
-                    <div class="progress rounded-pill" style="height: 10px; background: #e2e8f0;">
-                        <div id="attProgressBar" class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 0%"></div>
+                    <div class="progress rounded-pill mb-4" style="height: 10px; background: #e5e5ea; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                        <div id="attProgressBar" class="progress-bar bg-dark" style="width: 0%"></div>
+                    </div>
+                    
+                                       <button class="ios-btn-teal mt-2" onclick="showStudentLogs()">
+                        <i class="fas fa-history fs-5"></i> View IN & OUT History
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Quick Actions Grid (Fixed Buttons) -->
+                       <div class="ios-card">
+                <h6 class="fw-bold text-dark mb-0 border-bottom pb-3"><i class="fas fa-layer-group text-secondary me-2"></i> Quick Actions</h6>
+                <div class="ios-action-grid">
+                    <div class="ios-action-item" data-bs-toggle="modal" data-bs-target="#comingSoonModal">
+                        <i class="fas fa-id-badge ios-action-icon" style="color: #007aff;"></i>
+                        <span style="font-size: 11px; font-weight: 700;">Digital ID</span>
+                    </div>
+                    <div class="ios-action-item" data-bs-toggle="modal" data-bs-target="#comingSoonModal">
+                        <i class="fas fa-receipt ios-action-icon" style="color: #ff9500;"></i>
+                        <span style="font-size: 11px; font-weight: 700;">Fee Details</span>
+                    </div>
+                    <div class="ios-action-item" onclick="window.open('https://wa.me/917320984915?text=Hello Sir, I need some help regarding student portal...', '_blank')">
+                        <i class="fab fa-whatsapp ios-action-icon" style="color: #34c759;"></i>
+                        <span style="font-size: 11px; font-weight: 700;">Support</span>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-outline-secondary w-100 fw-bold rounded-pill mt-2 p-2 bg-white shadow-sm" onclick="logout()">
-                <i class="fas fa-power-off me-2 text-danger"></i> LOGOUT
-            </button>
-            <button id="checkUpdateBtn" class="btn btn-outline-info w-100 fw-bold rounded-pill mt-2 p-2 bg-white shadow-sm" onclick="checkForUpdates()">
-    <i class="fas fa-sync-alt me-2 text-info"></i> CHECK UPDATE
-</button>
+            <div class="d-flex gap-3 mt-3 mb-4">
+                <button id="checkUpdateBtn" class="ios-btn-update w-50" onclick="checkForUpdates()">
+                    <i class="fas fa-sync-alt fs-6"></i> Update App
+                </button>
+                <button class="ios-btn-logout w-50" onclick="logout()">
+                    <i class="fas fa-sign-out-alt fs-6"></i> Logout
+                </button>
+            </div>
 
-
-            <div class="text-center mt-3" style="cursor: pointer;" onclick="toggleCenterInfo()">
-                <small class="text-muted fw-bold" style="font-size: 10px;">
+            <div class="text-center pb-4" style="cursor: pointer;" onclick="toggleCenterInfo()">
+                <small class="fw-bold" style="color: #8e8e93; font-size: 10px; letter-spacing: 0.5px;">
                     KUSHAL YUVA PROGRAM (KYP) <i class="fas fa-chevron-down ms-1" id="centerIcon"></i>
                 </small>
-                <div id="centerDetails" style="display: none; font-size: 10px;" class="text-muted mt-1 fw-bold">
+                <div id="centerDetails" style="display: none; font-size: 10px;" class="mt-1 fw-bold text-dark">
                     SKILL DEVELOPMENT CENTRE | SDC SIMRI
                 </div>
             </div>
         </div>
-        
     </div>
-</div>
+
 
 <script>
 // Supabase Database Connection
@@ -241,12 +419,14 @@ let currentStudentRemark = null;
 let currentMnssbyId = null;
 
 window.onload = async () => {
-    const savedAadhar = localStorage.getItem('studentAadhar');
-    const savedDob = localStorage.getItem('studentDob');
-    if (savedAadhar && savedDob) {
-        document.getElementById('loginAadhar').value = savedAadhar;
-        document.getElementById('loginDob').value = savedDob;
-        await studentLogin(); 
+    const savedStudentId = localStorage.getItem('loggedInStudentId');
+    if (savedStudentId) {
+        const { data, error } = await _supabase.from('students').select('*').eq('id', savedStudentId).single();
+        if (data && !error) {
+            await showDashboard(data);
+        } else {
+            logout();
+        }
     }
 };
 
@@ -289,28 +469,37 @@ function isWithinBatchTime(remarkStr, extraTimeActive) {
     return now >= batchStart && now <= batchEnd;
 }
 
-async function updateAttendanceUI(studentId) {
-    const { data: logs } = await _supabase.from('attendance_logs').select('status').eq('student_id', studentId);
-    let total = 0, present = 0, absent = 0, rate = 0;
-
-    if (logs && logs.length > 0) {
-        total = logs.length;
-        present = logs.filter(l => l.status === 'Present').length;
-        absent = total - present;
-        rate = Math.round((present / total) * 100);
+async function updateAttendanceUI(student) {
+    const { data: logs } = await _supabase.from('attendance_logs').select('status').eq('student_id', student.id);
+    
+    let present = 0, absent = 0, rate = 0;
+    
+    // 1. कोर्स के हिसाब से Total Class सेट करें (Advance Excel के लिए 120, बाकी के लिए 60)
+    let fixedTotal = 60; 
+    const courseName = (student.course_applied || "").toUpperCase();
+    
+    if (courseName.includes("EXCEL")) {
+        fixedTotal = 120;
     }
 
-    document.getElementById('attTotal').innerText = total;
+    if (logs && logs.length > 0) {
+        present = logs.filter(l => l.status === 'Present').length;
+        absent = logs.filter(l => l.status === 'Absent').length;
+        rate = Math.round((present / fixedTotal) * 100);
+    }
+
+    // 2. डेटा को डैशबोर्ड पर दिखाना
+    document.getElementById('attTotal').innerText = fixedTotal;
     document.getElementById('attPresent').innerText = present;
     document.getElementById('attAbsent').innerText = absent;
     document.getElementById('attPercent').innerText = rate + "%";
     
     const bar = document.getElementById('attProgressBar');
     bar.style.width = rate + "%";
-    bar.className = rate < 50 ? "progress-bar bg-danger progress-bar-striped progress-bar-animated" : 
-                    rate < 75 ? "progress-bar bg-warning progress-bar-striped progress-bar-animated" : 
-                    "progress-bar bg-success progress-bar-striped progress-bar-animated";
+        bar.className = "progress-bar bg-dark";
+
 }
+
 
 async function studentLogin() {
     const aadharRaw = document.getElementById('loginAadhar').value;
@@ -340,33 +529,33 @@ async function studentLogin() {
             errorMsg.innerHTML = "<i class='fas fa-exclamation-triangle me-1'></i> रिकॉर्ड नहीं मिला! कृपया जानकारी चेक करें।";
             errorMsg.style.display = "block";
         } else {
-            if (data.admis !== 'Yes' && data.deep_admis !== 'Yes') {
-                errorMsg.innerHTML = "<i class='fas fa-ban me-1'></i> आपका एडमिशन अभी पेंडिंग है!";
+            // अगर एडमिन ने Verify नहीं किया है, तो रोकें
+            if (data.verify === 'No' && data.admis !== 'Yes' && data.deep_admis !== 'Yes') {
+                errorMsg.innerHTML = "<i class='fas fa-clock me-1'></i> आपका एडमिशन एडमिन द्वारा पेंडिंग है। कृपया WhatsApp पर अपना आधार कार्ड भेजें।";
                 errorMsg.style.display = "block";
-                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें';
+                btn.innerHTML = '<i class="fas fa-sign-in-alt fs-5"></i> LOGIN / प्रवेश करें';
                 btn.disabled = false;
                 return;
             }
 
             errorMsg.style.display = "none";
-            localStorage.setItem('studentAadhar', aadharRaw);
-            localStorage.setItem('studentDob', dob);
+            localStorage.setItem('loggedInStudentId', data.id);
             
-            // ✅ NAYA LOGIC: Student ke login karte hi time database me save karein
             const now = new Date().toISOString();
             await _supabase.from('students').update({ last_login: now }).eq('id', data.id);
             
-            showDashboard(data);
+            showDashboard(data); // डैशबोर्ड खोलो
         }
     } catch (err) {
         errorMsg.innerText = "सर्वर एरर, कृपया बाद में प्रयास करें।";
         errorMsg.style.display = "block";
     } finally {
-        btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> LOGIN / प्रवेश करें';
-        btn.disabled = false;
+        if(btn.disabled === true) {
+            btn.innerHTML = '<i class="fas fa-sign-in-alt fs-5"></i> LOGIN / प्रवेश करें';
+            btn.disabled = false;
+        }
     }
 }
-
 
 
 async function showDashboard(student) {
@@ -395,13 +584,37 @@ async function showDashboard(student) {
     
     const photoEl = document.getElementById('sPhoto');
     photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
+    // --- DUE FEE CALCULATION & BUTTON LOGIC ---
+    const totalFee = parseInt(student.fee_total) || 0;
+    const paidFee = parseInt(student.fee_paid) || 0;
+    const dueFee = totalFee - paidFee;
+    
+    const dashBtn = document.getElementById('dashboardPayBtn');
+    const vNotice = document.getElementById('paymentVerificationNotice');
 
-    await updateAttendanceUI(student.id);
-
+    if (dueFee > 0) {
+        // पैसा बाकी है, तो पेमेंट बटन दिखाओ
+        dashBtn.style.display = 'block';
+        dashBtn.innerHTML = `<i class="fas fa-qrcode me-2"></i> Pay Due Fee (बकाया ₹${dueFee} जमा करें)`;
+        if (vNotice) vNotice.style.display = 'none';
+        
+        currentCourseForPay = student.course_applied || "Course";
+        currentFeeForPay = dueFee; 
+    } else if (totalFee > 0 && student.pay !== 'Yes') {
+        // पूरा पैसा दे दिया, पर एडमिन ने Verify (Yes) नहीं किया है
+        dashBtn.style.display = 'none';
+        if (vNotice) vNotice.style.display = 'block';
+    } else {
+        // सब क्लियर है (पेमेंट Yes हो गया है)
+        dashBtn.style.display = 'none';
+        if (vNotice) vNotice.style.display = 'none';
+    }
+        await updateAttendanceUI(student); 
     attendanceChannel = _supabase.channel('custom-attendance-channel')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'attendance_logs', filter: `student_id=eq.${student.id}` }, (payload) => {
-                updateAttendanceUI(student.id);
+                updateAttendanceUI(student); 
         }).subscribe();
+
 }
 
 async function openMKCLPortal() {
@@ -412,14 +625,22 @@ async function openMKCLPortal() {
     btn.disabled = true;
 
     try {
-        const { data } = await _supabase.from('students').select('extra_time_active').eq('id', currentStudentId).single();
+        const { data } = await _supabase.from('students').select('extra_time_active, pay, fee_total').eq('id', currentStudentId).single();
+        
+        // 🛑 STRICT PAYMENT LOCK: जब तक एडमिन Yes न करे, ब्लॉक रखो!
+        const totalF = parseInt(data.fee_total) || 0;
+        if (totalF > 0 && data.pay !== 'Yes') {
+            alert("⛔ STOP! आपका पेमेंट अभी एडमिन द्वारा वेरीफाई (Verify) नहीं हुआ है। जब तक एडमिन आपके पेमेंट को 'Yes' नहीं करते, तब तक आप लॉगिन नहीं कर सकते।");
+            return; // यहाँ से कोड रुक जाएगा, पोर्टल नहीं खुलेगा
+        }
+
         const isAdminActive = data ? data.extra_time_active : false;
 
         if (isWithinBatchTime(currentStudentRemark, isAdminActive)) {
             if (currentMnssbyId && currentMnssbyId !== "-") {
                 try {
                     await navigator.clipboard.writeText(currentMnssbyId);
-                    alert(`✅ आपका User ID (${currentMnssbyId}) कॉपी हो गया है!\n\nपोर्टल खुलने पर ID वाले बॉक्स में थोड़ी देर दबाकर 'Paste' (पेस्ट) कर दें।`);
+                    alert(`✅ आपका User ID (${currentMnssbyId}) कॉपी हो गया है! पोर्टल खुलने पर ID वाले बॉक्स में थोड़ी देर दबाकर 'Paste' (पेस्ट) कर दें।`);
                 } catch(copyErr) {
                     console.log("Auto-copy fail", copyErr);
                 }
@@ -437,8 +658,8 @@ async function openMKCLPortal() {
 }
 
 function logout() {
-    localStorage.removeItem('studentAadhar');
-    localStorage.removeItem('studentDob');
+    localStorage.removeItem('loggedInStudentId'); // सुरक्षित तरीका
+    
     currentStudentId = null;
     currentStudentRemark = null;
     currentMnssbyId = null; 
@@ -451,6 +672,7 @@ function logout() {
     document.getElementById('registrationScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'block';
 }
+
 
 // ==========================================
 // ✅ REGISTRATION LOGIC
@@ -509,10 +731,17 @@ async function submitNewRegistration(e) {
             btn.disabled = false;
             return;
         }
+let selectedCourseName = document.getElementById('rCourse').value;
+        if(selectedCourseName === "ADVANCE_EXCEL") {
+            const modeText = document.getElementById('rExcelMode').options[document.getElementById('rExcelMode').selectedIndex].text;
+            selectedCourseName = `Advance Excel (${modeText}) + FREE AI COURSE`;
+        } else if(selectedCourseName === "DEEP_IT") selectedCourseName = "DEEP IT Basic";
+        else if(selectedCourseName === "AI_COURSE") selectedCourseName = "AI Course Only";
 
-        const data = {
+                const data = {
             name: document.getElementById('rName').value.toUpperCase(),
             father: document.getElementById('rFather').value.toUpperCase(),
+            mother: document.getElementById('rMother').value.toUpperCase(),
             dob: document.getElementById('rDob').value,
             gender: document.getElementById('rGender').value,
             category: document.getElementById('rCategory').value,
@@ -529,10 +758,17 @@ async function submitNewRegistration(e) {
             rollNo: document.getElementById('rRollNo').value || "-",
             passYear: parseInt(document.getElementById('rPassYear').value) || null,
             bankName: document.getElementById('rBankName').value || "-",
-            branchName: "-",
+            branchName: document.getElementById('rBranchName').value.toUpperCase() || "-",
             accNo: document.getElementById('rAccNo').value || "-",
             ifsc: document.getElementById('rIfsc').value.toUpperCase() || "-",
+            course_applied: selectedCourseName,
+                        fee_total: calculatedTotalFee || 0,
+            fee_paid: document.getElementById('rFeePaid') ? (parseInt(document.getElementById('rFeePaid').value) || 0) : 0,
+            is_kyp_student: document.getElementById('rIsKyp').value,
+            txn_id: document.getElementById('rTxnId').value || (document.getElementById('rIsKyp').value === "OUR_CENTER" ? "Pending (Verification)" : (document.getElementById('rPayMode').value === "CASH" ? "CASH at Center" : "-")),
             receipt: "-",
+
+
             photo: document.getElementById('rPhotoData').value || null,
             verify: "No",
             alloc: "No",
@@ -550,9 +786,24 @@ async function submitNewRegistration(e) {
         const { error } = await _supabase.from('students').insert([data]);
         if (error) throw error;
 
-        alert("🎉 आपका रजिस्ट्रेशन सफलतापूर्वक हो गया है! सर इसे चेक करके आपका एडमिशन 'Active' करेंगे, उसके बाद ही आप लॉगिन कर पाएंगे।");
-        hideRegistrationScreen();
-
+        const successHtml = `
+            <div class="text-center p-4">
+                <i class="fas fa-check-circle text-success" style="font-size: 50px;"></i>
+                <h4 class="text-success fw-bold mt-3">Admission Pending Verification!</h4>
+                <p class="text-muted fw-bold" style="font-size: 14px;">आपका रजिस्ट्रेशन दर्ज़ हो गया है। आधार कार्ड वेरिफिकेशन के बाद आपको पेमेंट लिंक दिया जाएगा।</p>
+                <div class="text-start mt-4" style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 15px; border-radius: 10px;">
+                    <p class="mt-2 mb-0" style="font-size: 12px; color: #1e40af; line-height: 1.5; font-weight: 600;">
+                        कृपया अपने <b>आधार कार्ड की फोटो</b> हमें WhatsApp पर अभी भेजें। वेरिफिकेशन के बाद आप पोर्टल में लॉगिन करके पेमेंट कर पाएंगे।
+                    </p>
+                </div>
+                <a href="https://wa.me/917320984915?text=Hello Sir, My Name is ${data.name}. I have registered for ${data.course_applied}. Please verify my admission. I am sending my Aadhar photo." 
+                   target="_blank" class="btn btn-primary mt-4 rounded-pill fw-bold w-100 p-2 shadow-sm" style="background:#2563eb; border:none;">
+                    <i class="fab fa-whatsapp me-2"></i> WhatsApp पर आधार कार्ड भेजें
+                </a>
+                <button class="btn btn-outline-secondary w-100 rounded-pill mt-2 fw-bold" onclick="window.location.reload()">Back to Login</button>
+            </div>
+        `;
+        document.getElementById('registrationScreen').innerHTML = successHtml;
     } catch (err) {
         errorMsg.innerText = "सर्वर एरर! कृपया इंटरनेट चेक करें या बाद में प्रयास करें।";
         errorMsg.style.display = "block";
@@ -570,6 +821,36 @@ async function submitNewRegistration(e) {
         <button onclick="document.getElementById('updateNotice').style.display='none'" class="btn btn-outline-light btn-sm fw-bold px-4 rounded-pill">SKIP</button>
     </div>
 </div>
+    <!-- Payment Modal Popup (Fixed & Premium) -->
+    <div id="paymentModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center;">
+        <div class="ios-card text-center" style="max-width: 360px; padding: 25px; margin: 20px; width: 100%; position: relative; border-radius: 28px; border: 1px solid rgba(255,255,255,0.3);">
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-4" onclick="closePaymentModal()"></button>
+
+            <h5 class="fw-bold text-dark mb-4"><i class="fas fa-wallet me-2" style="color: #007aff;"></i> Complete Payment</h5>
+
+            <!-- Amount Box -->
+            <div class="p-3 mb-4" style="background: #f2f2f7; border-radius: 20px;">
+                <span class="small fw-bold text-muted" style="font-size: 11px;">COURSE</span>
+                <p class="fw-bold text-dark m-0" id="modalCourseName"></p>
+                <div class="mt-2 border-top border-secondary pt-2">
+                    <span class="small fw-bold text-muted" style="font-size: 11px;">AMOUNT TO PAY</span>
+                    <h3 class="m-0 fw-bold text-dark">₹<span id="modalPayAmount"></span></h3>
+                </div>
+            </div>
+
+            <!-- Inputs -->
+            <div class="text-start">
+                 <input type="number" id="modalFeePaid" class="form-control mb-2" style="border-radius: 14px; padding: 14px; background: #f2f2f7; border: none;" placeholder="Amount Paid (₹)">
+                 <input type="text" id="modalTxnId" class="form-control mb-3" style="border-radius: 14px; padding: 14px; background: #f2f2f7; border: none;" placeholder="Transaction ID (UTR)">
+            </div>
+
+            <!-- Fixed Submit Button -->
+            <button id="btnSubmitModalPay" class="ios-btn-primary" onclick="submitDashboardPayment()">
+                <i class="fas fa-check-circle"></i> SUBMIT & VERIFY
+            </button>
+        </div>
+    </div>
+
 
 <script>
 // --- PWA INSTALL & UPDATE LOGIC ---
@@ -649,10 +930,246 @@ function checkForUpdates() {
             }
         });
     } else {
+        // पुराने ब्राउज़र के लिए
         window.location.reload(true);
     }
 }
+let calculatedTotalFee = 0;
+let currentCourseForPay = "";
+let currentFeeForPay = 0;
+
+function calculateFee() {
+    const course = document.getElementById('rCourse').value;
+    const mode = document.getElementById('rExcelMode').value;
+    const isKyp = document.getElementById('rIsKyp').value;
+    const payMode = document.getElementById('rPayMode').value; // NAYA: Payment Mode Status
+    
+    const excelModeDiv = document.getElementById('excelModeDiv');
+    const aiFreeBadge = document.getElementById('aiFreeBadge');
+    
+    let fee = 0;
+    
+    if (course === "ADVANCE_EXCEL") {
+        excelModeDiv.style.display = 'block';
+        aiFreeBadge.style.display = 'block'; 
+    } else {
+        excelModeDiv.style.display = 'none';
+        aiFreeBadge.style.display = 'none';
+    }
+
+    if (course === "DEEP_IT") fee = (isKyp === "OUR_CENTER") ? 400 : 500;
+    else if (course === "ADVANCE_EXCEL") {
+        if (mode === "ONLINE") fee = 1800; 
+        else if (mode === "OFFLINE") fee = 3800; 
+        else if (mode === "HYBRID") fee = (isKyp === "OUR_CENTER") ? 3800 : 4500; 
+    } else if (course === "AI_COURSE") fee = (isKyp === "OUR_CENTER") ? 400 : 500;
+
+    calculatedTotalFee = fee;
+    document.getElementById('displayFee').innerText = fee;
+    
+    
+    const paymentSection = document.getElementById('paymentSection');
+    const verificationNotice = document.getElementById('verificationNotice');
+    const vTitle = document.getElementById('verificationTitle');
+    const vDesc = document.getElementById('verificationDesc');
+
+    if (fee > 0) {
+        if (isKyp === "OUR_CENTER") {
+            // SDC Simri wala offer
+            paymentSection.style.display = 'none';
+            verificationNotice.style.display = 'block';
+            vTitle.innerHTML = '<i class="fas fa-id-card me-2 text-warning"></i> Aadhar Verification Required';
+            vDesc.innerHTML = 'चूंकि आपने स्पेशल ऑफर चुना है, आपका पेमेंट अभी नहीं लिया जाएगा। फॉर्म सबमिट करने के बाद हमारे WhatsApp पर अपना <span class="text-danger">आधार कार्ड</span> भेजें।';
+        } else if (payMode === "CASH") {
+            // Cash at center wala option
+            paymentSection.style.display = 'none';
+            verificationNotice.style.display = 'block';
+            verificationNotice.className = "mt-3 p-3 bg-info-subtle border border-info rounded-3 text-center shadow-sm";
+            vTitle.innerHTML = '<i class="fas fa-money-bill-wave me-2 text-info"></i> Cash Payment at Center';
+            vDesc.innerHTML = 'आप अपना फॉर्म अभी सबमिट कर दें। सेंटर पर आकर <b>कैश जमा करने के बाद</b> आपका एडमिशन कन्फर्म और लॉगिन चालू कर दिया जाएगा।';
+        } else {
+            // Normal Online Payment
+            paymentSection.style.display = 'block';
+            verificationNotice.style.display = 'none';
+            verificationNotice.className = "mt-3 p-3 bg-warning-subtle border border-warning rounded-3 text-center shadow-sm"; // reset class
+        }
+    } else {
+        paymentSection.style.display = 'none';
+        verificationNotice.style.display = 'none';
+    }
+}
+
+function openPaymentModal() {
+    document.getElementById('modalCourseName').innerText = currentCourseForPay;
+    document.getElementById('modalPayAmount').innerText = currentFeeForPay;
+    document.getElementById('paymentModalOverlay').style.display = 'flex';
+}
+function closePaymentModal() { document.getElementById('paymentModalOverlay').style.display = 'none'; }
+
+async function submitDashboardPayment() {
+    const txn = document.getElementById('modalTxnId').value.trim();
+    const payingNow = parseInt(document.getElementById('modalFeePaid').value) || 0;
+    
+    if (txn.length < 10) return alert("कृपया सही UTR / Transaction ID डालें!");
+    if (payingNow <= 0) return alert("कृपया जमा की जा रही राशि भरें!");
+    
+    const btn = document.getElementById('btnSubmitModalPay');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    btn.disabled = true;
+
+    try {
+        const { data: currentData } = await _supabase.from('students').select('fee_paid, fee_total').eq('id', currentStudentId).single();
+        const oldPaid = parseInt(currentData.fee_paid) || 0;
+        const totalF = parseInt(currentData.fee_total) || 0;
+        const newTotalPaid = oldPaid + payingNow;
+        
+        const newPayStatus = (newTotalPaid >= totalF && totalF > 0) ? 'Yes' : 'No';
+
+        const { error } = await _supabase.from('students').update({ 
+            fee_paid: newTotalPaid, 
+            pay: newPayStatus, 
+            admis: 'Yes', 
+            txn_id: txn 
+        }).eq('id', currentStudentId);
+        
+        if (!error) {
+            alert("🎉 पेमेंट जमा हो गया! आपका एडमिशन Active कर दिया गया है।");
+            closePaymentModal();
+            window.location.reload();
+        } else throw error;
+    } catch (err) { alert("एरर! फिर से प्रयास करें।"); }
+    finally { btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i> SUBMIT PAYMENT'; btn.disabled = false; }
+}
+// UPI ID कॉपी करने का फंक्शन
+function copyMyUPI() {
+    const upiID = "7320984915@apl"; // आपकी UPI ID
+    
+    // क्लिपबोर्ड में कॉपी करना
+    navigator.clipboard.writeText(upiID).then(() => {
+        alert("✅ UPI ID (7320984915@apl) कॉपी हो गया है! अब आप अपना PhonePe, Google Pay या Paytm खोलकर इसे 'Pay to UPI ID' में Paste (पेस्ट) कर सकते हैं।");
+    }).catch(err => {
+        console.error('Copy failed', err);
+        alert("कॉपी करने में समस्या हुई, कृपया इसे मैन्युअली टाइप करें: " + upiID);
+    });
+}
 
 </script>
+    <!-- iOS Premium IN/OUT Time Modal -->
+    <div class="modal fade" id="studentLogsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 24px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15); background: #f2f2f7;">
+                <!-- Header -->
+                <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center" style="padding: 20px 20px 0 20px;">
+                    <h6 class="modal-title fw-bold text-dark m-0"><i class="fas fa-history me-2" style="color: #00c7be;"></i> IN & OUT History</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color: #e5e5ea; border-radius: 50%; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);"></button>
+                </div>
+                <!-- Body -->
+                <div class="modal-body p-3">
+                    <div id="logsModalContent" style="max-height: 350px; overflow-y: auto; scrollbar-width: thin;">
+                        <!-- Data will load here automatically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IN/OUT Time Modal Show करने का Script (Error Free) -->
+    <script>
+    async function showStudentLogs() {
+        // Safe Modal Initialization
+        const modalElement = document.getElementById('studentLogsModal');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modal.show();
+        
+        const content = document.getElementById('logsModalContent');
+        content.innerHTML = `<div class="text-center p-4"><i class="fas fa-spinner fa-spin fa-2x mb-2" style="color: #007aff;"></i><p class="small text-muted fw-bold m-0">डेटा लोड हो रहा है...</p></div>`;
+        
+        try {
+            const { data: logs, error } = await _supabase
+                .from('attendance_logs')
+                .select('*')
+                .eq('student_id', currentStudentId)
+                .order('attendance_date', {ascending: false});
+                
+            if(error) throw error;
+
+            if(!logs || logs.length === 0) {
+                content.innerHTML = `<div class="text-center p-4 bg-white rounded-4 shadow-sm border" style="border-color: #e5e5ea;"><i class="fas fa-calendar-times mb-2" style="font-size: 30px; color: #ff3b30;"></i><p class="text-dark fw-bold m-0" style="font-size: 13px;">अभी कोई अटेंडेंस डेटा मौजूद नहीं है।</p></div>`;
+                return;
+            }
+
+            // iOS Style Clean Table
+            let html = `<table class="table table-borderless text-center m-0" style="font-size: 12px; border-collapse: separate; border-spacing: 0 8px;"><tbody>`;
+            
+            logs.forEach(lg => {
+                const dateStr = new Date(lg.attendance_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+                
+                // iOS Badges for Status
+                const badge = lg.status === 'Present' 
+                    ? '<div style="background: #e0fcf7; color: #00c7be; padding: 4px 10px; border-radius: 8px; font-weight: bold; font-size: 10px; display: inline-block;">PRESENT</div>' 
+                    : '<div style="background: #ffe0e0; color: #ff3b30; padding: 4px 10px; border-radius: 8px; font-weight: bold; font-size: 10px; display: inline-block;">ABSENT</div>';
+                
+                const timeLog = lg.remarks ? `<div class="mt-1 fw-bold" style="color: #8e8e93; font-size: 10px;">${lg.remarks}</div>` : '';
+                
+                html += `<tr style="background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-radius: 12px;">
+                            <td class="fw-bold text-dark align-middle" style="border-radius: 12px 0 0 12px; padding: 12px;">${dateStr}</td>
+                            <td class="align-middle" style="border-radius: 0 12px 12px 0; padding: 12px;">${badge}${timeLog}</td>
+                         </tr>`;
+            });
+
+            html += `</tbody></table>`;
+            content.innerHTML = html;
+            
+        } catch (err) {
+            content.innerHTML = `<div class="text-center p-3 bg-white rounded-4 shadow-sm border"><p class="text-danger fw-bold m-0" style="font-size: 12px;">डेटा लाने में समस्या हुई! कृपया इंटरनेट चेक करें।</p></div>`;
+        }
+    }
+    </script>
+
+        <!-- Coming Soon Modal (Syllabus और Holidays बटन के लिए) -->
+    <div class="modal fade" id="comingSoonModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 24px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+                <div class="modal-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-tools text-warning" style="font-size: 40px;"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-2">Coming Soon!</h5>
+                    <p class="text-muted small fw-bold mb-4">यह फीचर अभी बन रहा है। अगले अपडेट में यह काम करने लगेगा!</p>
+                                      <button type="button" class="ios-btn-primary mt-2" data-bs-dismiss="modal">OK, Got It!</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+document.onkeydown = function(e) {
+    // Block F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+    }
+    // Block Ctrl+Shift+I (Inspect)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+        e.preventDefault();
+        return false;
+    }
+    // Block Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+        e.preventDefault();
+        return false;
+    }
+    // Block Ctrl+U (View Source)
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+        e.preventDefault();
+        return false;
+    }
+};
+</script>
+
 </body>
 </html>
