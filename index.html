@@ -203,14 +203,17 @@
                         <h6 class="fw-bold text-secondary mt-4 border-top pt-2">Course & Payment (कोर्स और फीस)</h6>
             <div class="row g-2 align-items-center">
                 <div class="col-md-3">
-                    <label class="small fw-bold">Select Course</label>
-                    <select id="rCourse" class="form-select form-select-sm" required onchange="calculateFee()">
-                        <option value="">-- कोर्स चुनें --</option>
-                        <option value="DEEP_IT">DEEP IT Basic</option>
-                        <option value="ADVANCE_EXCEL">Advance Excel</option>
-                        <option value="AI_COURSE">AI Course</option>
-                    </select>
-                </div>
+    <label class="small fw-bold">Select Course</label>
+    <select id="rCourse" class="form-select form-select-sm border-primary" required onchange="calculateFee()">
+        <option value="">-- कोर्स चुनें --</option>
+        <option value="KYP_COURSE">1. KYP Course (₹1000 Security)</option>
+        <option value="DEEP_IT">2. DEEP IT Basic</option>
+        <option value="ADVANCE_EXCEL">3. Advance Excel</option>
+        <option value="AI_COURSE">4. AI Course</option>
+        <option value="KYP_DEEP">5. KYP + DEEP (Both)</option>
+    </select>
+</div>
+
                 
                 <div class="col-md-3" id="excelModeDiv" style="display: none;">
                     <label class="small fw-bold">Select Mode</label>
@@ -242,6 +245,10 @@
                 <div class="col-md-12 text-center mt-2">
                     <div class="p-2 bg-success-subtle text-success border border-success-subtle rounded-3 position-relative mt-2 d-inline-block px-4">
                         <span class="small fw-bold">Total Fee: </span><h5 class="m-0 fw-bold d-inline">₹<span id="displayFee">0</span></h5>
+                        <div id="kypRegNotice" class="text-primary mt-1 fw-bold" style="font-size: 11px; display: none;">
+    <i class="fas fa-info-circle"></i> नोट: KYP का ₹1000 सिक्यूरिटी मनी कोर्स पूरा होने पर सरकार (DRCC) द्वारा आपके बैंक में रिफंड कर दिया जाएगा।
+</div>
+
                         <div id="aiFreeBadge" class="position-absolute top-0 start-50 translate-middle badge bg-danger rounded-pill shadow" style="display:none; font-size:10px;">
                             + AI COURSE FREE <i class="fas fa-gift ms-1"></i>
                         </div>
@@ -295,116 +302,81 @@
 
         </form>
     </div>
-    <div id="dashboardScreen" class="dashboard-grid">
-        
-        <!-- Profile Section -->
-        <div>
-            <div class="profile-card">
-                <img id="sPhoto" src="" class="profile-img">
-                <h4 id="sName" class="fw-bold mb-1 text-uppercase text-dark" style="letter-spacing: 0.5px;">Student Name</h4>
-                <div class="badge mb-3 px-3 py-2 rounded-pill" style="font-size: 11px; font-weight: 700; background-color: #f2f2f7; color: #8e8e93; border: 1px solid #e5e5ea;">
-                    SI.No: <span id="sSiNo">00</span>
-                </div>
-
-                <div id="studentIdBadges" class="d-flex justify-content-center gap-2 mb-3 flex-wrap"></div>
-                
-                <div class="rounded-4 p-3 text-start mt-2" style="background: #f8f8f8; border: 1px solid #e5e5ea; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);">
-                    <p class="small m-0 mb-2 text-dark fw-bold"><i class="fas fa-mobile-alt me-3 text-secondary"></i><span id="sMobile"></span></p>
-                    <p class="small m-0 mb-2 text-dark fw-bold"><i class="fas fa-venus-mars me-3 text-secondary"></i><span id="sGender"></span></p>
-                    <p class="small m-0 fw-bold text-dark"><i class="fas fa-clock me-3 text-primary"></i>Batch: <span id="sBatch"></span></p>
-                </div>
+<div id="dashboardScreen" class="dashboard-grid">
+    <div>
+        <div class="ios-card p-0 mb-3" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.06);">
+            <div class="text-center p-3 border-bottom" style="border-color: #e5e5ea !important; background: #f9f9fb;">
+                <h6 class="fw-bold m-0 text-dark" style="letter-spacing: 1px;"><i class="fas fa-id-badge me-2" style="color: #007aff;"></i> DIGITAL ID CARD</h6>
+                <small class="text-muted" style="font-size: 10px; font-weight: 600;">SDC SIMRI (KYP06020030)</small>
             </div>
             
-            <button id="mkclBtn" class="ios-btn-purple mt-4" onclick="openMKCLPortal()">
-                <i class="fas fa-laptop-code fs-5"></i> Edunext Student Login
-            </button>
-            <button id="dashboardPayBtn" class="ios-btn-orange mt-3" style="display: none;" onclick="openPaymentModal()">
-                <i class="fas fa-qrcode fs-5"></i> Pay Pending Fee
-            </button>
-        </div>
-
-        <!-- Stats & Features Section -->
-        <div>
-            <div class="notice-alert">
-                <div class="d-flex align-items-center mb-1">
-                    <i class="fas fa-bell fs-5 me-2" style="color: #007aff;"></i>
-                    <h6 class="fw-bold text-dark m-0">Important Notice</h6>
-                </div>
-                <p class="small text-muted m-0 mt-1" style="font-weight: 500; line-height: 1.4;">कौशल विकास केंद्र (SDC Simri) के सभी छात्र अपने निर्धारित बैच के समय पर क्लास में उपस्थित रहें।</p>
-            </div>
-
-            <!-- Attendance Card -->
-            <div class="ios-card">
-                <h5 class="fw-bold text-dark border-bottom pb-3 m-0"><i class="fas fa-chart-pie text-secondary me-2"></i> Attendance Record</h5>
-                <div class="stat-grid">
-                    <div class="stat-box">
-                        <h2 id="attTotal" class="fw-bold text-dark m-0">0</h2>
-                        <small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">TOTAL</small>
-                    </div>
-                    <div class="stat-box">
-                        <h2 id="attPresent" class="fw-bold text-success m-0">0</h2>
-                        <small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">PRESENT</small>
-                    </div>
-                    <div class="stat-box">
-                        <h2 id="attAbsent" class="fw-bold text-danger m-0">0</h2>
-                        <small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">ABSENT</small>
-                    </div>
+            <div class="p-4 text-center">
+                <div style="width: 110px; height: 110px; margin: 0 auto 15px auto; border-radius: 50%; padding: 4px; background: #f2f2f7; box-shadow: 0 8px 20px rgba(0,0,0,0.12);">
+                    <img id="sPhoto" src="" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff;">
                 </div>
                 
-                <div class="mt-4 pt-2">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="small fw-bold text-muted">Overall Percentage</span>
-                        <span id="attPercent" class="small fw-bold text-dark">0%</span>
-                    </div>
-                    <div class="progress rounded-pill mb-4" style="height: 10px; background: #e5e5ea; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
-                        <div id="attProgressBar" class="progress-bar bg-dark" style="width: 0%"></div>
-                    </div>
-                    
-                                       <button class="ios-btn-teal mt-2" onclick="showStudentLogs()">
-                        <i class="fas fa-history fs-5"></i> View IN & OUT History
-                    </button>
-
-                </div>
-            </div>
-
-            <!-- Quick Actions Grid (Fixed Buttons) -->
-                       <div class="ios-card">
-                <h6 class="fw-bold text-dark mb-0 border-bottom pb-3"><i class="fas fa-layer-group text-secondary me-2"></i> Quick Actions</h6>
-                <div class="ios-action-grid">
-                    <div class="ios-action-item" data-bs-toggle="modal" data-bs-target="#comingSoonModal">
-                        <i class="fas fa-id-badge ios-action-icon" style="color: #007aff;"></i>
-                        <span style="font-size: 11px; font-weight: 700;">Digital ID</span>
-                    </div>
-                    <div class="ios-action-item" data-bs-toggle="modal" data-bs-target="#comingSoonModal">
-                        <i class="fas fa-receipt ios-action-icon" style="color: #ff9500;"></i>
-                        <span style="font-size: 11px; font-weight: 700;">Fee Details</span>
-                    </div>
-                    <div class="ios-action-item" onclick="window.open('https://wa.me/917320984915?text=Hello Sir, I need some help regarding student portal...', '_blank')">
-                        <i class="fab fa-whatsapp ios-action-icon" style="color: #34c759;"></i>
-                        <span style="font-size: 11px; font-weight: 700;">Support</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex gap-3 mt-3 mb-4">
-                <button id="checkUpdateBtn" class="ios-btn-update w-50" onclick="checkForUpdates()">
-                    <i class="fas fa-sync-alt fs-6"></i> Update App
-                </button>
-                <button class="ios-btn-logout w-50" onclick="logout()">
-                    <i class="fas fa-sign-out-alt fs-6"></i> Logout
-                </button>
-            </div>
-
-            <div class="text-center pb-4" style="cursor: pointer;" onclick="toggleCenterInfo()">
-                <small class="fw-bold" style="color: #8e8e93; font-size: 10px; letter-spacing: 0.5px;">
-                    KUSHAL YUVA PROGRAM (KYP) <i class="fas fa-chevron-down ms-1" id="centerIcon"></i>
-                </small>
-                <div id="centerDetails" style="display: none; font-size: 10px;" class="mt-1 fw-bold text-dark">
-                    SKILL DEVELOPMENT CENTRE | SDC SIMRI
+                <h4 id="sName" class="fw-bold mb-1 text-uppercase text-dark" style="letter-spacing: 0.5px;">Student Name</h4>
+                <p id="sCourse" class="small fw-bold mb-3 text-primary" style="font-size: 12px;">Course Name</p>
+                
+                <div id="studentIdBadges" class="d-flex justify-content-center gap-2 mb-3 flex-wrap"></div>
+                
+                <div class="text-start p-3 rounded-4" style="background: #f2f2f7; border: 1px solid #e5e5ea;">
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted fw-bold" style="font-size: 12px;"><i class="fas fa-id-card me-2"></i> SI No:</span> <b id="sSiNo" class="text-dark" style="font-size: 13px;">00</b></div>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted fw-bold" style="font-size: 12px;"><i class="fas fa-mobile-alt me-2"></i> Mobile:</span> <b id="sMobile" class="text-dark" style="font-size: 13px;">N/A</b></div>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted fw-bold" style="font-size: 12px;"><i class="fas fa-calendar-alt me-2"></i> DOB:</span> <b id="sDob" class="text-dark" style="font-size: 13px;">N/A</b></div>
+                    <div class="d-flex justify-content-between"><span class="text-muted fw-bold" style="font-size: 12px;"><i class="fas fa-clock me-2"></i> Batch:</span> <b id="sBatch" class="text-dark" style="font-size: 13px;">Not Assigned</b></div>
                 </div>
             </div>
         </div>
+
+        <button id="mkclBtn" class="ios-btn-purple mt-2 mb-3" onclick="openMKCLPortal()"><i class="fas fa-laptop-code fs-5"></i> Edunext Student Login</button>
+        <button id="dashboardPayBtn" class="ios-btn-orange mt-2 mb-3" style="display: none;" onclick="openPaymentModal()"><i class="fas fa-qrcode fs-5"></i> Pay Pending Fee</button>
     </div>
+
+    <div>
+        <div class="notice-alert">
+            <div class="d-flex align-items-center mb-1"><i class="fas fa-bell fs-5 me-2" style="color: #007aff;"></i><h6 class="fw-bold text-dark m-0">Important Notice</h6></div>
+            <p class="small text-muted m-0 mt-1" style="font-weight: 500; line-height: 1.4;">कौशल विकास केंद्र (SDC Simri) के सभी छात्र अपने निर्धारित बैच के समय पर क्लास में उपस्थित रहें।</p>
+        </div>
+
+        <div class="ios-card mb-3">
+            <h6 class="fw-bold text-dark border-bottom pb-3 m-0"><i class="fas fa-chart-pie text-secondary me-2"></i> Attendance Record</h6>
+            <div class="stat-grid">
+                <div class="stat-box"><h2 id="attTotal" class="fw-bold text-dark m-0">0</h2><small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">TOTAL</small></div>
+                <div class="stat-box"><h2 id="attPresent" class="fw-bold text-success m-0">0</h2><small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">PRESENT</small></div>
+                <div class="stat-box"><h2 id="attAbsent" class="fw-bold text-danger m-0">0</h2><small class="text-muted fw-bold" style="font-size:10px; letter-spacing: 1px;">ABSENT</small></div>
+            </div>
+            <div class="mt-4 pt-2">
+                <div class="d-flex justify-content-between mb-2"><span class="small fw-bold text-muted">Overall Percentage</span><span id="attPercent" class="small fw-bold text-dark">0%</span></div>
+                <div class="progress rounded-pill mb-4" style="height: 10px; background: #e5e5ea; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);"><div id="attProgressBar" class="progress-bar bg-dark" style="width: 0%"></div></div>
+                <button class="ios-btn-teal mt-2" onclick="showStudentLogs()"><i class="fas fa-history fs-5"></i> View IN & OUT History</button>
+            </div>
+        </div>
+
+        <div class="ios-card mb-3">
+            <h6 class="fw-bold text-dark mb-0 border-bottom pb-3"><i class="fas fa-layer-group text-secondary me-2"></i> Quick Actions</h6>
+            <div class="ios-action-grid">
+                <div class="ios-action-item" onclick="window.open('https://wa.me/917320984915?text=Hello Sir, I need some help regarding student portal...', '_blank')"><i class="fab fa-whatsapp ios-action-icon" style="color: #34c759;"></i><span style="font-size: 11px; font-weight: 700;">Support</span></div>
+                
+                <div class="ios-action-item" onclick="openFeeDetailsModal()"><i class="fas fa-receipt ios-action-icon" style="color: #ff9500;"></i><span style="font-size: 11px; font-weight: 700;">Fee Details</span></div>
+                
+                <div class="ios-action-item" onclick="toggleCenterInfo()"><i class="fas fa-building ios-action-icon" style="color: #007aff;"></i><span style="font-size: 11px; font-weight: 700;">Center Info</span></div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-3 mt-3 mb-4">
+            <button id="checkUpdateBtn" class="ios-btn-update w-50" onclick="checkForUpdates()"><i class="fas fa-sync-alt fs-6"></i> Update App</button>
+            <button class="ios-btn-logout w-50" onclick="logout()"><i class="fas fa-sign-out-alt fs-6"></i> Logout</button>
+        </div>
+
+        <div class="text-center pb-4" style="cursor: pointer;" onclick="toggleCenterInfo()">
+            <small class="fw-bold" style="color: #8e8e93; font-size: 10px; letter-spacing: 0.5px;">KUSHAL YUVA PROGRAM (KYP) <i class="fas fa-chevron-down ms-1" id="centerIcon"></i></small>
+            <div id="centerDetails" style="display: none; font-size: 10px;" class="mt-1 fw-bold text-dark">SKILL DEVELOPMENT CENTRE | SDC SIMRI
+            <div class="m-0 mt-2 banner-location">
+                <i class="fas fa-map-marker-alt text-warning me-1"></i>कारुबीर बाबा मंदिर के समीप, बकुलहा पट्टी, सिमरी, बक्सर 802135</div>
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -500,7 +472,6 @@ async function updateAttendanceUI(student) {
 
 }
 
-
 async function studentLogin() {
     const aadharRaw = document.getElementById('loginAadhar').value;
     const aadharClean = aadharRaw.replace(/\s/g, ''); 
@@ -544,20 +515,19 @@ async function studentLogin() {
             const now = new Date().toISOString();
             await _supabase.from('students').update({ last_login: now }).eq('id', data.id);
             
-            showDashboard(data); // डैशबोर्ड खोलो
+            // ✅ FIX: यहाँ डैशबोर्ड को कॉल करना था, जो पहले मिट गया था
+            await showDashboard(data);
         }
     } catch (err) {
-        errorMsg.innerText = "सर्वर एरर, कृपया बाद में प्रयास करें।";
+        errorMsg.innerHTML = "<i class='fas fa-exclamation-triangle me-1'></i> सर्वर से जुड़ने में समस्या हुई।";
         errorMsg.style.display = "block";
     } finally {
-        if(btn.disabled === true) {
-            btn.innerHTML = '<i class="fas fa-sign-in-alt fs-5"></i> LOGIN / प्रवेश करें';
-            btn.disabled = false;
-        }
+        btn.innerHTML = '<i class="fas fa-sign-in-alt fs-5"></i> LOGIN / प्रवेश करें';
+        btn.disabled = false;
     }
 }
 
-
+// फ्रेश डैशबोर्ड जावास्क्रिप्ट 
 async function showDashboard(student) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('registrationScreen').style.display = 'none';
@@ -566,13 +536,18 @@ async function showDashboard(student) {
     currentStudentId = student.id;
     currentStudentRemark = student.remark;
     currentMnssbyId = student.mnssbyId; 
+    currentStudentData = student; 
 
     document.getElementById('sName').innerText = student.name;
+    document.getElementById('sCourse').innerText = student.course_applied || "KYP / MNSSBY Course";
     document.getElementById('sSiNo').innerText = student.siNo || "N/A";
-    document.getElementById('sBatch').innerText = student.remark || "Not Assigned";
     document.getElementById('sMobile').innerText = student.mobile || "N/A";
-    document.getElementById('sGender').innerText = student.gender || "N/A";
-    
+    document.getElementById('sDob').innerText = student.dob || "N/A";
+    document.getElementById('sBatch').innerText = student.remark || "Not Assigned";
+
+    const photoEl = document.getElementById('sPhoto');
+    photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
+
     let badgesHtml = '';
     if(student.mnssbyId && student.mnssbyId !== "-") {
         badgesHtml += `<span class="badge bg-primary text-white px-3 py-2 rounded-pill shadow-sm" style="font-size: 11px;"><i class="fas fa-id-card me-1"></i> KYP: ${student.mnssbyId}</span>`;
@@ -581,40 +556,61 @@ async function showDashboard(student) {
         badgesHtml += `<span class="badge bg-success text-white px-3 py-2 rounded-pill shadow-sm" style="font-size: 11px;"><i class="fas fa-laptop-code me-1"></i> DEEP: ${student.deepId}</span>`;
     }
     document.getElementById('studentIdBadges').innerHTML = badgesHtml;
-    
-    const photoEl = document.getElementById('sPhoto');
-    photoEl.src = student.photo ? student.photo : 'https://via.placeholder.com/120?text=No+Photo';
-    // --- DUE FEE CALCULATION & BUTTON LOGIC ---
+
+    // सिर्फ पेंडिंग फीस बटन का लॉजिक (कार्ड वाला कोड हटा दिया गया है)
     const totalFee = parseInt(student.fee_total) || 0;
     const paidFee = parseInt(student.fee_paid) || 0;
     const dueFee = totalFee - paidFee;
-    
+
     const dashBtn = document.getElementById('dashboardPayBtn');
     const vNotice = document.getElementById('paymentVerificationNotice');
 
     if (dueFee > 0) {
-        // पैसा बाकी है, तो पेमेंट बटन दिखाओ
-        dashBtn.style.display = 'block';
-        dashBtn.innerHTML = `<i class="fas fa-qrcode me-2"></i> Pay Due Fee (बकाया ₹${dueFee} जमा करें)`;
+        dashBtn.style.display = 'flex';
+        dashBtn.innerHTML = `<i class="fas fa-qrcode fs-5"></i> Pay Due Fee (बकाया ₹${dueFee})`;
         if (vNotice) vNotice.style.display = 'none';
         
         currentCourseForPay = student.course_applied || "Course";
         currentFeeForPay = dueFee; 
     } else if (totalFee > 0 && student.pay !== 'Yes') {
-        // पूरा पैसा दे दिया, पर एडमिन ने Verify (Yes) नहीं किया है
         dashBtn.style.display = 'none';
         if (vNotice) vNotice.style.display = 'block';
     } else {
-        // सब क्लियर है (पेमेंट Yes हो गया है)
         dashBtn.style.display = 'none';
         if (vNotice) vNotice.style.display = 'none';
     }
-        await updateAttendanceUI(student); 
+    
+    await updateAttendanceUI(student); 
     attendanceChannel = _supabase.channel('custom-attendance-channel')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'attendance_logs', filter: `student_id=eq.${student.id}` }, (payload) => {
                 updateAttendanceUI(student); 
         }).subscribe();
+}
 
+// नया पॉपअप ओपन करने का फंक्शन
+function openFeeDetailsModal() {
+    if(!currentStudentData) return;
+    
+    const total = parseInt(currentStudentData.fee_total) || 0;
+    const paid = parseInt(currentStudentData.fee_paid) || 0;
+    const due = total - paid;
+    const courseApplied = currentStudentData.course_applied || 'KYP / MNSSBY Course';
+
+    document.getElementById('popFeeCourseName').innerText = courseApplied;
+    document.getElementById('popFeeTotal').innerText = total;
+    document.getElementById('popFeePaid').innerText = paid;
+    document.getElementById('popFeeDue').innerText = due;
+    document.getElementById('popFeeTxn').innerText = currentStudentData.txn_id || "N/A";
+
+    // NAYA: KYP Refund Notice Hide/Show
+    if (courseApplied.includes("KYP") || courseApplied.includes("MNSSBY")) {
+        document.getElementById('kypRefundNotice').style.display = 'block';
+    } else {
+        document.getElementById('kypRefundNotice').style.display = 'none';
+    }
+
+    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('feeDetailsModal'));
+    modal.show();
 }
 
 async function openMKCLPortal() {
@@ -627,11 +623,11 @@ async function openMKCLPortal() {
     try {
         const { data } = await _supabase.from('students').select('extra_time_active, pay, fee_total').eq('id', currentStudentId).single();
         
-        // 🛑 STRICT PAYMENT LOCK: जब तक एडमिन Yes न करे, ब्लॉक रखो!
+        // 🛑 STRICT PAYMENT LOCK
         const totalF = parseInt(data.fee_total) || 0;
         if (totalF > 0 && data.pay !== 'Yes') {
             alert("⛔ STOP! आपका पेमेंट अभी एडमिन द्वारा वेरीफाई (Verify) नहीं हुआ है। जब तक एडमिन आपके पेमेंट को 'Yes' नहीं करते, तब तक आप लॉगिन नहीं कर सकते।");
-            return; // यहाँ से कोड रुक जाएगा, पोर्टल नहीं खुलेगा
+            return; 
         }
 
         const isAdminActive = data ? data.extra_time_active : false;
@@ -658,7 +654,7 @@ async function openMKCLPortal() {
 }
 
 function logout() {
-    localStorage.removeItem('loggedInStudentId'); // सुरक्षित तरीका
+    localStorage.removeItem('loggedInStudentId'); 
     
     currentStudentId = null;
     currentStudentRemark = null;
@@ -672,6 +668,7 @@ function logout() {
     document.getElementById('registrationScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'block';
 }
+
 
 
 // ==========================================
@@ -732,11 +729,14 @@ async function submitNewRegistration(e) {
             return;
         }
 let selectedCourseName = document.getElementById('rCourse').value;
-        if(selectedCourseName === "ADVANCE_EXCEL") {
-            const modeText = document.getElementById('rExcelMode').options[document.getElementById('rExcelMode').selectedIndex].text;
-            selectedCourseName = `Advance Excel (${modeText}) + FREE AI COURSE`;
-        } else if(selectedCourseName === "DEEP_IT") selectedCourseName = "DEEP IT Basic";
-        else if(selectedCourseName === "AI_COURSE") selectedCourseName = "AI Course Only";
+if(selectedCourseName === "ADVANCE_EXCEL") {
+    const modeText = document.getElementById('rExcelMode').options[document.getElementById('rExcelMode').selectedIndex].text;
+    selectedCourseName = `Advance Excel (${modeText}) + FREE AI COURSE`;
+} else if(selectedCourseName === "DEEP_IT") selectedCourseName = "DEEP IT Basic";
+else if(selectedCourseName === "AI_COURSE") selectedCourseName = "AI Course Only";
+else if(selectedCourseName === "KYP_COURSE") selectedCourseName = "KYP Course";
+else if(selectedCourseName === "KYP_DEEP") selectedCourseName = "KYP + DEEP (Both)";
+
 
                 const data = {
             name: document.getElementById('rName').value.toUpperCase(),
@@ -942,10 +942,11 @@ function calculateFee() {
     const course = document.getElementById('rCourse').value;
     const mode = document.getElementById('rExcelMode').value;
     const isKyp = document.getElementById('rIsKyp').value;
-    const payMode = document.getElementById('rPayMode').value; // NAYA: Payment Mode Status
+    const payMode = document.getElementById('rPayMode').value; 
     
     const excelModeDiv = document.getElementById('excelModeDiv');
     const aiFreeBadge = document.getElementById('aiFreeBadge');
+    const kypNotice = document.getElementById('kypRegNotice'); // NAYA LOGIC
     
     let fee = 0;
     
@@ -957,7 +958,17 @@ function calculateFee() {
         aiFreeBadge.style.display = 'none';
     }
 
-    if (course === "DEEP_IT") fee = (isKyp === "OUR_CENTER") ? 400 : 500;
+    // KYP नोटिस दिखाना
+    if (course === "KYP_COURSE" || course === "KYP_DEEP") {
+        kypNotice.style.display = 'block';
+    } else {
+        kypNotice.style.display = 'none';
+    }
+
+    // --- NAYA FEE LOGIC (KYP 1000) ---
+    if (course === "KYP_COURSE") fee = 1000;
+    else if (course === "KYP_DEEP") fee = 1500; // 1000 Security + 500 DEEP
+    else if (course === "DEEP_IT") fee = (isKyp === "OUR_CENTER") ? 400 : 500;
     else if (course === "ADVANCE_EXCEL") {
         if (mode === "ONLINE") fee = 1800; 
         else if (mode === "OFFLINE") fee = 3800; 
@@ -967,37 +978,34 @@ function calculateFee() {
     calculatedTotalFee = fee;
     document.getElementById('displayFee').innerText = fee;
     
-    
     const paymentSection = document.getElementById('paymentSection');
     const verificationNotice = document.getElementById('verificationNotice');
     const vTitle = document.getElementById('verificationTitle');
     const vDesc = document.getElementById('verificationDesc');
 
     if (fee > 0) {
-        if (isKyp === "OUR_CENTER") {
-            // SDC Simri wala offer
+        if (isKyp === "OUR_CENTER" && (course === "DEEP_IT" || course === "AI_COURSE" || course === "ADVANCE_EXCEL")) {
             paymentSection.style.display = 'none';
             verificationNotice.style.display = 'block';
             vTitle.innerHTML = '<i class="fas fa-id-card me-2 text-warning"></i> Aadhar Verification Required';
             vDesc.innerHTML = 'चूंकि आपने स्पेशल ऑफर चुना है, आपका पेमेंट अभी नहीं लिया जाएगा। फॉर्म सबमिट करने के बाद हमारे WhatsApp पर अपना <span class="text-danger">आधार कार्ड</span> भेजें।';
         } else if (payMode === "CASH") {
-            // Cash at center wala option
             paymentSection.style.display = 'none';
             verificationNotice.style.display = 'block';
             verificationNotice.className = "mt-3 p-3 bg-info-subtle border border-info rounded-3 text-center shadow-sm";
             vTitle.innerHTML = '<i class="fas fa-money-bill-wave me-2 text-info"></i> Cash Payment at Center';
             vDesc.innerHTML = 'आप अपना फॉर्म अभी सबमिट कर दें। सेंटर पर आकर <b>कैश जमा करने के बाद</b> आपका एडमिशन कन्फर्म और लॉगिन चालू कर दिया जाएगा।';
         } else {
-            // Normal Online Payment
             paymentSection.style.display = 'block';
             verificationNotice.style.display = 'none';
-            verificationNotice.className = "mt-3 p-3 bg-warning-subtle border border-warning rounded-3 text-center shadow-sm"; // reset class
+            verificationNotice.className = "mt-3 p-3 bg-warning-subtle border border-warning rounded-3 text-center shadow-sm"; 
         }
     } else {
         paymentSection.style.display = 'none';
         verificationNotice.style.display = 'none';
     }
 }
+
 
 function openPaymentModal() {
     document.getElementById('modalCourseName').innerText = currentCourseForPay;
@@ -1142,7 +1150,45 @@ function copyMyUPI() {
             </div>
         </div>
     </div>
-    <script>
+ <div class="modal fade" id="feeDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content" style="border-radius: 24px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15); background: #ffffff;">
+            <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center" style="padding: 20px 20px 0 20px;">
+                <h6 class="modal-title fw-bold text-dark m-0"><i class="fas fa-receipt me-2" style="color: #ff9500;"></i> Fee Details Record</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color: #e5e5ea; border-radius: 50%; padding: 8px;"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="p-3 mb-3" style="background: #fff4e6; border-radius: 16px; border: 1px solid #ffd499;">
+                    <span class="small fw-bold text-muted" style="font-size: 10px;">ENROLLED COURSE</span>
+                    <p class="fw-bold text-dark m-0" id="popFeeCourseName" style="font-size: 13px;"></p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                    <span class="fw-bold text-muted small">Total Fee</span>
+                    <h6 class="fw-bold m-0">₹<span id="popFeeTotal">0</span></h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                    <span class="fw-bold text-success small">Paid Amount</span>
+                    <h6 class="fw-bold text-success m-0">₹<span id="popFeePaid">0</span></h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-bold text-danger small">Due Amount</span>
+                    <h6 class="fw-bold text-danger m-0">₹<span id="popFeeDue">0</span></h6>
+                </div>
+                <div class="p-3 mt-2" style="background: #f2f2f7; border-radius: 12px; font-size: 11px;">
+                    <span class="text-muted fw-bold d-block mb-1">Transaction/UTR Details:</span>
+                    <b id="popFeeTxn" class="text-dark"></b>
+                </div>
+                <div id="kypRefundNotice" class="p-2 mt-3 rounded" style="background: #e0fcf7; border: 1px solid #00c7be; display: none;">
+    <span class="small fw-bold text-dark" style="font-size: 10.5px;">
+        <i class="fas fa-info-circle text-success me-1"></i> <b>नोट:</b> KYP Course में जमा किया गया ₹1000 (Security Money) कोर्स पूरा होने के बाद बिहार सरकार (DRCC) द्वारा आपके बैंक खाते में वापस (Refund) कर दिया जाएगा।
+    </span>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SECURITY SCRIPT: Block F12, Right Click, and Inspect Element -->
+<script>
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 });
@@ -1170,6 +1216,5 @@ document.onkeydown = function(e) {
     }
 };
 </script>
-
 </body>
 </html>
