@@ -888,34 +888,39 @@ async function startBiometricLogin() {
         </div>
     </div>
 </div>
-<!-- SECURITY SCRIPT: Block F12, Right Click, and Inspect Element -->
-<script>
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
 
-document.onkeydown = function(e) {
-    // Block F12
-    if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-    }
-    // Block Ctrl+Shift+I (Inspect)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
-        e.preventDefault();
-        return false;
-    }
-    // Block Ctrl+Shift+J (Console)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
-        e.preventDefault();
-        return false;
-    }
-    // Block Ctrl+U (View Source)
-    if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
-        e.preventDefault();
-        return false;
-    }
-};
+<script>
+    // 1. राइट-क्लिक (Right-Click) बंद करने के लिए
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+
+    // 2. कीबोर्ड शॉर्टकट (Ctrl+U, F12, Ctrl+Shift+I आदि) बंद करने के लिए
+    document.onkeydown = function(event) {
+        // F12 (Developer Tools) ब्लॉक करें
+        if (event.key === 'F12' || event.keyCode === 123) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+U (View Source) ब्लॉक करें
+        if (event.ctrlKey && (event.key === 'u' || event.key === 'U' || event.keyCode === 85)) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+Shift+I / J / C (Developer Tools) ब्लॉक करें
+        if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'i' || event.key === 'J' || event.key === 'j' || event.key === 'C' || event.key === 'c')) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+S (Save Page) ब्लॉक करें
+        if (event.ctrlKey && (event.key === 's' || event.key === 'S' || event.keyCode === 83)) {
+            event.preventDefault();
+            return false;
+        }
+    };
 </script>
 
 </body>
