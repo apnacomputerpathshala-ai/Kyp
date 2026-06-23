@@ -154,10 +154,6 @@
         <button id="btn-login" class="ios-btn-primary" onclick="studentLogin()">
             <i class="fas fa-sign-in-alt fs-5"></i> LOGIN / प्रवेश करें
         </button>
-<button id="biometricBtn" class="ios-btn-grey w-100 mt-3" onclick="startBiometricLogin()">
-    <i class="fas fa-fingerprint me-2"></i> फिंगरप्रिंट / फेस-आईडी से लॉगिन करें
-</button>
-
 
         <p id="errorMsg" class="text-danger small mt-3 fw-bold bg-danger-subtle p-2 rounded" style="display:none;"></p>
         
@@ -167,22 +163,22 @@
                 <i class="fas fa-user-plus fs-6"></i> New Registration
             </button>
         </div>
-                 <!-- Promotional Banner Slider (For Login Screen) -->
-        <div class="ios-card p-0 mb-4" style="border-radius: 16px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid #ffd499;">
-            <div id="loginAdsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                <div class="carousel-indicators" style="margin-bottom: 5px;">
-                    <button type="button" data-bs-target="#loginAdsCarousel" data-bs-slide-to="0" class="active" style="width: 6px; height: 6px; border-radius: 50%;"></button>
-                    <button type="button" data-bs-target="#loginAdsCarousel" data-bs-slide-to="1" style="width: 6px; height: 6px; border-radius: 50%;"></button>
-                    <button type="button" data-bs-target="#loginAdsCarousel" data-bs-slide-to="2" style="width: 6px; height: 6px; border-radius: 50%;"></button>
-                    <button type="button" data-bs-target="#loginAdsCarousel" data-bs-slide-to="3" style="width: 6px; height: 6px; border-radius: 50%;"></button>
-                    <button type="button" data-bs-target="#loginAdsCarousel" data-bs-slide-to="4" style="width: 6px; height: 6px; border-radius: 50%;"></button>
+                <!-- Promotional Banner Slider (All 5 Courses & KYP Ads) -->
+        <div class="ios-card p-0 mb-3" style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 2px solid #ffd499;">
+            <div id="courseAdsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+                <div class="carousel-indicators" style="margin-bottom: 8px;">
+                    <button type="button" data-bs-target="#courseAdsCarousel" data-bs-slide-to="0" class="active" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+                    <button type="button" data-bs-target="#courseAdsCarousel" data-bs-slide-to="1" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+                    <button type="button" data-bs-target="#courseAdsCarousel" data-bs-slide-to="2" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+                    <button type="button" data-bs-target="#courseAdsCarousel" data-bs-slide-to="3" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+                    <button type="button" data-bs-target="#courseAdsCarousel" data-bs-slide-to="4" style="width: 8px; height: 8px; border-radius: 50%;"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active"><img src="adca.png" class="d-block w-100" style="max-height: 220px; object-fit: contain; background: #000;"></div>
-                    <div class="carousel-item"><img src="excel.png" class="d-block w-100" style="max-height: 220px; object-fit: contain; background: #000;"></div>
-                    <div class="carousel-item"><img src="kyp1.png" class="d-block w-100" style="max-height: 220px; object-fit: contain; background: #000;"></div>
-                    <div class="carousel-item"><img src="kyp2.png" class="d-block w-100" style="max-height: 220px; object-fit: contain; background: #000;"></div>
-                    <div class="carousel-item"><img src="kyp3.png" class="d-block w-100" style="max-height: 220px; object-fit: contain; background: #000;"></div>
+                    <div class="carousel-item active"><img src="adca.png" class="d-block w-100" style="border-radius: 18px 18px 0 0; max-height: 400px; object-fit: contain; background: #000;"></div>
+                    <div class="carousel-item"><img src="excel.png" class="d-block w-100" style="border-radius: 18px 18px 0 0; max-height: 400px; object-fit: contain; background: #000;"></div>
+                    <div class="carousel-item"><img src="kyp1.png" class="d-block w-100" style="border-radius: 18px 18px 0 0; max-height: 400px; object-fit: contain; background: #000;"></div>
+                    <div class="carousel-item"><img src="kyp2.png" class="d-block w-100" style="border-radius: 18px 18px 0 0; max-height: 400px; object-fit: contain; background: #000;"></div>
+                    <div class="carousel-item"><img src="kyp3.png" class="d-block w-100" style="border-radius: 18px 18px 0 0; max-height: 400px; object-fit: contain; background: #000;"></div>
                 </div>
             </div>
             <div class="p-2 text-center" style="background: linear-gradient(180deg, #fff4e6 0%, #ffe4c2 100%);">
@@ -921,5 +917,6 @@ document.onkeydown = function(e) {
     }
 };
 </script>
+
 </body>
 </html>
